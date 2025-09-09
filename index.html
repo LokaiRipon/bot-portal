@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bot Portal</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Raleway:wght@300;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <!-- Styles -->
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #0d1b2a, #1b263b);
+      color: #f0f0f0;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #1b263b;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    header h1 {
+      font-family: 'Raleway', sans-serif;
+      color: #f9d342;
+      font-size: 1.8rem;
+    }
+
+    nav a {
+      color: #f0f0f0;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #f9d342;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #f9d342;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
+    }
+
+    .download-btn {
+      background-color: #f9d342;
+      color: #1b263b;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .download-btn:hover {
+      background-color: #ffd60a;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav {
+        margin-top: 0.5rem;
+      }
+
+      .hero h2 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+    }
+    .tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #2c3e50;
+    color: #f0f0f0;
+    text-align: center;
+    border-radius: 6px;
+    padding: 0.5rem;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position above the link */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1><i class="fas fa-robot"></i> Bot Portal</h1>
+    <nav>
+      <div class="tooltip">
+        <a href="#" target="_blank">
+          <i class="fab fa-whatsapp"></i> Home
+        </a>
+        <span class="tooltiptext">Home</span>
+      </div>
+      <div class="tooltip">
+        <a href="admin.html" target="_blank">
+          <i class="fab fa-whatsapp"></i> Admin
+        </a>
+        <span class="tooltiptext">Admin Login</span>
+      </div>
+      <div class="tooltip">
+        <a href="https://wa.me/254769530372" target="_blank">
+          <i class="fab fa-whatsapp"></i> Contact
+        </a>
+        <span class="tooltiptext">Chat with the Vendor</span>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Download Your Bot</h2>
+    <p>This bot is built for Windows desktop users. To activate it, you'll need a license key from the admin. Contact us via WhatsApp or Telegram to get started.</p>
+    <a href="assets/downloads/bot.exe">
+      <button class="download-btn"><i class="fas fa-download"></i> Download Bot</button>
+    </a>
+  </section>
+
+  <section class="hero" style="margin-top: 3rem;">
+    <h3 style="color: #f9d342;">Installation Instructions</h3>
+    <ul style="max-width: 600px; margin: 0 auto; text-align: left; line-height: 1.6;">
+      <li>📁 Create a new folder on your Desktop (e.g., <strong>MyBot</strong>)</li>
+      <li>⬇️ Download and place the <strong>bot_installer.exe</strong> inside that folder</li>
+      <li>🚀 Double-click to launch the bot</li>
+      <li>🛠️ The bot will automatically create config files and download required Chrome drivers</li>
+      <li>🔑 To activate, contact admin for your license key</li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; 2025 LokaiRipon. All rights reserved. <br>
+    Support:
+    <div class="tooltip">
+      <a href="https://wa.me/254799196459" target="_blank" style="color: #f9d342;">
+        <i class="fab fa-whatsapp"></i> WhatsApp |
+      </a>
+      <span class="tooltiptext">Chat with the Developer</span>
+    </div>
+    <div class="tooltip">
+      <a href="https://t.me/@LK_Ripon" target="_blank" style="color: #f9d342;">
+        <i class="fab fa-telegram"></i> Telegram
+      </a>
+      <span class="tooltiptext">Chat with the Developer</span>
+    </div>
+  </footer>
+
+</body>
+</html>

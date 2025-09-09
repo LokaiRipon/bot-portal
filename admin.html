@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Raleway:wght@300;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #0d1b2a, #1b263b);
+      color: #f0f0f0;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #1b263b;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    header h1 {
+      font-family: 'Raleway', sans-serif;
+      color: #f9d342;
+      font-size: 1.8rem;
+    }
+
+    nav a {
+      color: #f0f0f0;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #f9d342;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #f9d342;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 3rem auto;
+      background-color: #1e2a3a;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      text-align: center;
+      color: #f9d342;
+      margin-bottom: 1.5rem;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 0.7rem;
+      margin-bottom: 1rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    input {
+      background-color: #2c3e50;
+      color: #f0f0f0;
+    }
+
+    button {
+      background-color: #f9d342;
+      color: #1b263b;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #ffd60a;
+    }
+
+    #result, #loginError {
+      font-weight: bold;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav {
+        margin-top: 0.5rem;
+      }
+
+      .hero h2 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1><i class="fas fa-robot"></i> Admin Panel</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="admin.html">Admin</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  <div class="container" id="loginSection">
+    <h2>Admin Login</h2>
+    <input type="text" id="adminUsername" placeholder="Admin Username" required />
+    <input type="password" id="adminPassword" placeholder="Admin Password" required />
+    <button onclick="verifyAdmin()">Login</button>
+    <p id="loginError" style="color: red;"></p>
+  </div>
+
+  <div class="container" id="keySection" style="display: none;">
+    <h2>Generate License Key</h2>
+    <input type="email" id="clientEmail" placeholder="Client Email" required />
+    <input type="password" id="adminTokenConfirm" placeholder="Admin Password (again)" required />
+    <button onclick="generateKey()">Generate Key</button>
+    <p id="result"></p>
+  </div>
+
+  <footer>
+    &copy; 2025 LokaiRipon. Admin access only.
+  </footer>
+
+  <script>
+  async function verifyAdmin() {
+    const username = document.getElementById('adminUsername').value.trim();
+    const token = document.getElementById('adminPassword').value.trim();
+
+    if (!username || !token) {
+      document.getElementById('loginError').textContent = "Please fill in both fields.";
+      return;
+    }
+
+    try {
+      const res = await fetch('https://hbase-render.onrender.com/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, admin_token: token })
+      });
+
+      const data = await res.json();
+      if (res.ok && data.status === "success") {
+        localStorage.setItem("admin_token", token);
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('keySection').style.display = 'block';
+        document.getElementById('loginError').textContent = "";
+      } else {
+        document.getElementById('loginError').textContent = "Invalid credentials.";
+      }
+    } catch (err) {
+      document.getElementById('loginError').textContent = `Network error: ${err.message}`;
+    }
+  }
+
+  async function generateKey() {
+  const email = document.getElementById('clientEmail').value.trim();
+  const token = document.getElementById('adminTokenConfirm').value.trim();
+
+  if (!email || !token) {
+    document.getElementById('result').textContent = "Please fill in all fields.";
+    return;
+  }
+
+  try {
+    const res = await fetch('https://hbase-render.onrender.com/admin/api/issue_key', {
+      method: 'POST',
+      headers: {
+        'Authorization': token
+      },
+      body: new URLSearchParams({ email })
+    });
+
+    const data = await res.json();
+    if (res.ok && data.status === "success") {
+      document.getElementById('result').innerHTML = `
+        ✅ License key issued successfully to <strong>${email}</strong>.<br><br>
+        An email has been sent to the recipient with their license key.<br><br>
+        <strong>License Key:</strong> <span id="license-key">${data.key}</span>
+        <button onclick="copyLicenseKey()">📋</button><br><br>
+        <strong>Expires:</strong> <span>${data.expiry_date}</span>
+      `;
+    } else {
+      document.getElementById('result').textContent = `❌ Error: ${data.detail || 'Failed to generate key.'}`;
+    }
+  } catch (err) {
+    document.getElementById('result').textContent = `❌ Network error: ${err.message}`;
+  }
+}
+
+  function copyLicenseKey() {
+    const key = document.getElementById("license-key").textContent;
+    navigator.clipboard.writeText(key).then(() => {
+      alert("License key copied to clipboard");
+    });
+  }
+</script>
+</body>
+</html>

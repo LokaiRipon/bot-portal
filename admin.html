@@ -165,35 +165,41 @@
   </footer>
 
   <script>
-  async function verifyAdmin() {
-    const username = document.getElementById('adminUsername').value.trim();
-    const token = document.getElementById('adminPassword').value.trim();
+  async function loginAdmin() {
+  const username = document.getElementById('adminUsername').value.trim();
+  const token = document.getElementById('adminToken').value.trim();
 
-    if (!username || !token) {
-      document.getElementById('loginError').textContent = "Please fill in both fields.";
-      return;
-    }
-
-    try {
-      const res = await fetch('https://hbase-render.onrender.com/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, admin_token: token })
-      });
-
-      const data = await res.json();
-      if (res.ok && data.status === "success") {
-        localStorage.setItem("admin_token", token);
-        document.getElementById('loginSection').style.display = 'none';
-        document.getElementById('keySection').style.display = 'block';
-        document.getElementById('loginError').textContent = "";
-      } else {
-        document.getElementById('loginError').textContent = "Invalid credentials.";
-      }
-    } catch (err) {
-      document.getElementById('loginError').textContent = `Network error: ${err.message}`;
-    }
+  if (!username || !token) {
+    document.getElementById('loginError').textContent = "Please enter both username and token.";
+    return;
   }
+
+  try {
+    const res = await fetch('https://hbase-render.onrender.com/admin/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username,
+        admin_token: token
+      })
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.status === "success") {
+      localStorage.setItem("admin_token", token);
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById('keySection').style.display = 'block';
+      document.getElementById('loginError').textContent = "";
+    } else {
+      document.getElementById('loginError').textContent = data.detail || data.message || "Invalid credentials.";
+    }
+  } catch (err) {
+    document.getElementById('loginError').textContent = `Network error: ${err.message}`;
+  }
+}
 
   async function generateKey() {
   const email = document.getElementById('clientEmail').value.trim();
@@ -208,10 +214,15 @@
     const res = await fetch('https://hbase-render.onrender.com/admin/api/issue_key', {
       method: 'POST',
       headers: {
-        'Authorization': token
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
-      body: new URLSearchParams({ email })
+      body: JSON.stringify({
+        user_email: email,
+        duration_days: 30 // or make this dynamic if needed
+      })
     });
+
 
     const data = await res.json();
     if (res.ok && data.status === "success") {

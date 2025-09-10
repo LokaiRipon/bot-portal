@@ -33,6 +33,12 @@
       font-size: 1.8rem;
     }
 
+    nav {
+    display: flex;
+    gap: 1.5rem; /* Optional: spacing between items */
+    align-items: center;
+    }
+
     nav a {
       color: #f0f0f0;
       text-decoration: none;
@@ -134,6 +140,30 @@
         font-size: 1rem;
       }
     }
+
+     .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #2c3e50;
+    color: #f0f0f0;
+    text-align: center;
+    border-radius: 6px;
+    padding: 0.5rem;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position above the link */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
   </style>
 </head>
 <body>
@@ -141,9 +171,24 @@
   <header>
     <h1><i class="fas fa-robot"></i> Admin Panel</h1>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="admin.html">Admin</a>
-      <a href="#">Contact</a>
+      <div class="tooltip">
+        <a href="index.html" target="_parent">
+          <i class="fab fa-whatsapp"></i> Home
+        </a>
+        <span class="tooltiptext">Home</span>
+      </div>
+      <div class="tooltip">
+        <a href="#" target="_parent">
+          <i class="fab fa-whatsapp"></i> Admin
+        </a>
+        <span class="tooltiptext">Admin Login</span>
+      </div>
+      <div class="tooltip">
+        <a href="https://wa.me/254769530372" target="_blank">
+          <i class="fab fa-whatsapp"></i> Contact
+        </a>
+        <span class="tooltiptext">Chat with the Vendor</span>
+      </div>
     </nav>
   </header>
 
@@ -162,6 +207,15 @@
     <button onclick="generateKey()">Generate Key</button>
     <p id="result"></p>
   </div>
+
+  <div class="container" id="historySection" style="display: none;">
+    <h2>License Key History</h2>
+    <div id="keyHistoryList" style="line-height: 1.6;"></div>
+  </div>
+
+  <p style="text-align: center; font-size: 0.85rem; color: #aaa;">
+    All times shown in East Africa Time (EAT)
+  </p>
 
   <footer>
     &copy; 2025 LokaiRipon. Admin access only.
@@ -196,6 +250,14 @@
       document.getElementById('loginSection').style.display = 'none';
       document.getElementById('keySection').style.display = 'block';
       document.getElementById('loginError').textContent = "";
+
+      // incase of a successful login, fetch and display key history
+      const nav = document.querySelector("nav");
+      const viewKeysLink = document.createElement("a");
+      viewKeysLink.href = "#";
+      viewKeysLink.textContent = "View Created Keys";
+      viewKeysLink.onclick = showCreatedKeys;
+      nav.appendChild(viewKeysLink);
     } else {
       document.getElementById('loginError').textContent = data.detail || data.message || "Invalid credentials.";
     }
@@ -250,6 +312,84 @@
       alert("License key copied to clipboard");
     });
   }
+
+  async function showCreatedKeys() {
+  const token = localStorage.getItem("admin_token");
+  if (!token) return;
+
+  try {
+    const res = await fetch('https://hbase-render.onrender.com/admin/api/view_keys', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    const data = await res.json();
+
+    if (res.ok && Array.isArray(data.keys)) {
+      const list = document.getElementById("keyHistoryList");
+      list.innerHTML = ""; // Clear previous entries
+
+      data.keys.forEach(entry => {
+        const item = document.createElement("div");
+        item.style.marginBottom = "1.5rem";
+        item.innerHTML = `
+          🔑 <strong>${entry.key}</strong><br>
+          📧 ${entry.user_email}<br>
+          ✅ Status: <span style="color: ${entry.status === 'active' ? '#28a745' : '#6c757d'}; font-weight: bold;">
+            ${entry.status.charAt(0).toUpperCase() + entry.status.slice(1)}
+          </span><br>
+          ⏳ Expires: ${entry.expiry_date}<br><br>
+          <button onclick="deleteKey('${entry.key}', '${entry.user_email}')" style="
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+          ">Delete</button>
+          <hr>
+        `;
+        list.appendChild(item);
+      });
+
+      document.getElementById("historySection").style.display = "block";
+    } else {
+      document.getElementById("keyHistoryList").textContent = "❌ Failed to retrieve key history.";
+    }
+  } catch (err) {
+    document.getElementById("keyHistoryList").textContent = `❌ Network error: ${err.message}`;
+  }
+}
+
+  async function deleteKey(key, email) {
+  const token = localStorage.getItem("admin_token");
+  if (!token || !confirm(`Are you sure you want to delete key:\n${key}\nfor ${email}?`)) return;
+
+  try {
+    const res = await fetch('https://hbase-render.onrender.com/admin/api/delete_key', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ key, user_email: email })
+    });
+
+    const data = await res.json();
+    if (res.ok && data.status === "success") {
+      alert(`✅ ${data.message}`);
+      showCreatedKeys(); // Refresh list
+    } else {
+      alert(`❌ ${data.detail || 'Failed to delete key.'}`);
+    }
+  } catch (err) {
+    alert(`❌ Network error: ${err.message}`);
+  }
+}
+
 </script>
 </body>
 </html>

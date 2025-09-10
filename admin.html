@@ -335,23 +335,25 @@
         const item = document.createElement("div");
         item.style.marginBottom = "1.5rem";
         item.innerHTML = `
-          🔑 <strong>${entry.key}</strong><br>
-          📧 ${entry.user_email}<br>
-          ✅ Status: <span style="color: ${entry.status === 'active' ? '#28a745' : '#6c757d'}; font-weight: bold;">
-            ${entry.status.charAt(0).toUpperCase() + entry.status.slice(1)}
-          </span><br>
-          ⏳ Expires: ${entry.expiry_date}<br><br>
-          <button onclick="deleteKey('${entry.key}', '${entry.user_email}')" style="
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 0.4rem 0.8rem;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-          ">Delete</button>
-          <hr>
-        `;
+  🔑 <strong>${entry.key}</strong><br>
+  📧 ${entry.user_email}<br>
+  ✅ Status: <span style="color: ${entry.status === 'active' ? '#28a745' : '#6c757d'}; font-weight: bold;">
+    ${entry.status.charAt(0).toUpperCase() + entry.status.slice(1)}
+  </span><br>
+  ⏳ Expires: ${entry.expiry_date}<br><br>
+  <button onclick="deleteKey('${entry.key}', '${entry.user_email}')" style="
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+  ">Delete</button>
+    cursor: pointer;
+  ">Delete</button>
+  <hr>
+`;
         list.appendChild(item);
       });
 
@@ -373,7 +375,7 @@
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        'Authorization': `${token}`
       },
       body: JSON.stringify({ key, user_email: email })
     });

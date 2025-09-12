@@ -213,6 +213,31 @@
     <div id="keyHistoryList" style="line-height: 1.6;"></div>
   </div>
 
+    <!-- ========== ADMIN SECTION (NEW) ========== -->
+  <div class="container" id="AdminSection" style="display: none;">
+    <h2><i class="fas fa-user-shield"></i>  Admin Dashboard</h2>
+    <div id="AdminControls">
+       <button onclick="fetchAnalytics()"><i class="fas fa-chart-bar"></i> Fetch Analytics Summary</button>
+       <div style="margin-top: 1rem;">
+         <input type="text" id="revokeKeyInput" placeholder="License Key to Revoke" />
+         <button onclick="revokeKey()"><i class="fas fa-ban"></i> Revoke Key</button>
+       </div>
+       <div style="margin-top: 1rem;">
+         <input type="text" id="extendKeyInput" placeholder="License Key to Extend" />
+         <input type="number" id="extendDaysInput" placeholder="Days (+/-)" step="any" />
+         <button onclick="extendKeyExpiry()"><i class="fas fa-calendar-plus"></i> Extend/Deduct Expiry</button>
+       </div>
+       <div style="margin-top: 1rem;">
+        <button onclick="logoutAdmin()" style="background-color: #6c757d;"><i class="fas fa-sign-out-alt"></i> Logout  Admin</button>
+       </div>
+    </div>
+    <div id="AdminOutput" style="margin-top: 1.5rem; padding: 1rem; background-color: #2c3e50; border-radius: 5px; min-height: 100px;">
+       <p id="AdminMessage">Please fetch analytics or use a control.</p>
+       <pre id="AdminData" style="white-space: pre-wrap; word-break: break-word; display: none;"></pre>
+    </div>
+  </div>
+  <!-- ========== END  ADMIN SECTION ========== -->
+
   <p style="text-align: center; font-size: 0.85rem; color: #aaa;">
     All times shown in East Africa Time (EAT)
   </p>
@@ -318,7 +343,7 @@
   if (!token) return;
 
   try {
-    const res = await fetch('https://hbase-render.onrender.com/admin/api/view_keys', {
+    const res = await fetch('https://hbase-render.onrender.com/admin/api/check_keys', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -340,17 +365,17 @@
   ✅ Status: <span style="color: ${entry.status === 'active' ? '#28a745' : '#6c757d'}; font-weight: bold;">
     ${entry.status.charAt(0).toUpperCase() + entry.status.slice(1)}
   </span><br>
-  ⏳ Expires: ${entry.expiry_date}<br><br>
-  <button onclick="deleteKey('${entry.key}', '${entry.user_email}')" style="
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 0.4rem 0.8rem;
-    border-radius: 5px;
-    font-weight: bold;
-  ">Delete</button>
-  <hr>
-`;
+    ⏳ Expires: ${entry.expiry_date}<br><br>
+    <button onclick="deleteKey('${entry.key}', '${entry.user_email}')" style="
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 5px;
+      font-weight: bold;
+    ">Delete</button>
+    <hr>
+  `;
         list.appendChild(item);
       });
 
@@ -388,6 +413,252 @@
     alert(`❌ Network error: ${err.message}`);
   }
 }
+
+  // end of the normal logic, lets go Super()
+  // Updated verifyAdmin to handle potential  Admin login
+  async function verifyAdmin() {
+    const usernameElement = document.getElementById('adminUsername');
+    const tokenElement = document.getElementById('adminPassword');
+
+    // Check if elements exist (might not if  admin section is active and elements are removed/replaced)
+    if (!usernameElement || !tokenElement) {
+        // Fallback if elements are somehow missing in a weird state
+        document.getElementById('loginError').textContent = "UI Error: Login fields not found.";
+        return;
+    }
+
+    const username = usernameElement.value.trim();
+    const token = tokenElement.value.trim();
+
+    if (!username || !token) {
+      document.getElementById('loginError').textContent = "Please enter both username and token.";
+      return;
+    }
+
+    try {
+      const res = await fetch('https://hbase-render.onrender.com/admin/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: username,
+          admin_token: token
+        })
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.status === "success") {
+        // --- STANDARD ADMIN LOGIN SUCCESS ---
+        localStorage.setItem("admin_token", token);
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('keySection').style.display = 'block';
+        document.getElementById('loginError').textContent = "";
+
+        // Add View Keys link if not already present
+        const nav = document.querySelector("nav");
+        if (!document.querySelector("nav a[onclick='showCreatedKeys()']")) {
+            const viewKeysLink = document.createElement("a");
+            viewKeysLink.href = "#";
+            viewKeysLink.textContent = "View Created Keys";
+            viewKeysLink.onclick = showCreatedKeys;
+            nav.appendChild(viewKeysLink);
+        }
+        // --- END STANDARD ADMIN LOGIN SUCCESS ---
+
+      } else {
+        // --- CHECK FOR  ADMIN TOKEN ---
+        // Even if standard login fails, check if token grants  access
+        // Use the dedicated  admin endpoint path and Bearer auth
+        const Res = await fetch('https://hbase-render.onrender.com/YOUR_HIDDEN__PATH', { // <<<=== CHANGE THIS PATH ===>>>
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // Use token directly for  admin auth
+            },
+            body: JSON.stringify({
+                action: 'ping', // A simple action to test auth
+                data: {}
+            })
+        });
+
+        if (Res.ok) {
+            // ---  ADMIN LOGIN SUCCESS ---
+            localStorage.setItem("_admin_token", token); // Store  token
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('AdminSection').style.display = 'block'; // Show  Admin Section
+            document.getElementById('loginError').textContent = "";
+            // Add a logout link for  Admin if not present
+            const nav = document.querySelector("nav");
+            if (!document.querySelector("nav a[onclick='logoutAdminNav()']")) {
+                const logoutLink = document.createElement("a");
+                logoutLink.href = "#";
+                logoutLink.textContent = "SA Logout"; // Shorter text
+                logoutLink.onclick = logoutAdminNav; // New function for nav logout
+                nav.appendChild(logoutLink);
+            }
+            console.log("[ Admin] Logged in successfully.");
+             // --- END  ADMIN LOGIN SUCCESS ---
+        } else {
+            // --- BOTH LOGINS FAILED ---
+            document.getElementById('loginError').textContent = data.detail || data.message || "Invalid credentials.";
+            console.log("[Login] Standard and  Admin login failed.");
+            // --- END BOTH LOGINS FAILED ---
+        }
+        // --- END CHECK FOR  ADMIN TOKEN ---
+      }
+    } catch (err) {
+      document.getElementById('loginError').textContent = `Network error: ${err.message}`;
+    }
+  }
+
+    // ==========  BASE FUNCTIONS (NEW) DON'T TOUCH THIS PART ==========
+  async function callEndpoint(action, data = {}) {
+    const token = localStorage.getItem("_admin_token");
+    if (!token) {
+        alert("❌  Admin not logged in.");
+        return null;
+    }
+    const Path = '/api/a1b2c3d4e5f67890';
+    const url = `https://hbase-render.onrender.com${Path}`;
+    try {
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ action, data })
+        });
+
+        if (!res.ok) {
+             const errorData = await res.json().catch(() => ({}));
+             throw new Error(errorData.detail || errorData.message || `HTTP ${res.status}`);
+        }
+
+        return await res.json();
+    } catch (err) {
+        console.error("[ Admin] Error calling endpoint:", err);
+        document.getElementById('AdminMessage').textContent = `❌ Error: ${err.message}`;
+        document.getElementById('AdminData').style.display = 'none';
+        return null;
+    }
+  }
+
+  // --- Fetch Analytics Summary ---
+  async function fetchAnalytics() {
+    document.getElementById('AdminMessage').textContent = "Fetching analytics...";
+    document.getElementById('AdminData').style.display = 'none';
+
+    const data = await callEndpoint('view_analytics_summary');
+    if (data) {
+        if (data.status === 'success') {
+            document.getElementById('AdminMessage').textContent = "✅ Analytics Summary:";
+            document.getElementById('AdminData').textContent = JSON.stringify(data.data, null, 2);
+            document.getElementById('AdminData').style.display = 'block';
+        } else {
+            document.getElementById('AdminMessage').textContent = `❌ Error: ${data.message}`;
+            document.getElementById('AdminData').style.display = 'none';
+        }
+    } // Error handling is inside callEndpoint
+  }
+
+  // --- Revoke a License Key ---
+  async function revokeKey() {
+    const keyInput = document.getElementById('revokeKeyInput');
+    const key = keyInput.value.trim();
+
+    if (!key) {
+        alert("Please enter a license key to revoke.");
+        return;
+    }
+
+    document.getElementById('AdminMessage').textContent = `Revoking key ${key.substring(0, 8)}...`;
+    document.getElementById('AdminData').style.display = 'none';
+
+    const data = await callEndpoint('revoke_key', { key });
+    if (data) {
+        if (data.status === 'success') {
+            document.getElementById('AdminMessage').textContent = `✅ ${data.message}`;
+            keyInput.value = ''; // Clear input on success
+            // Optionally, refresh analytics
+            // setTimeout(fetchAnalytics, 1000);
+        } else {
+            document.getElementById('AdminMessage').textContent = `❌ Error: ${data.message}`;
+        }
+    } // Error handling is inside callEndpoint
+  }
+
+  // --- Extend/Deduct Key Expiry ---
+  async function extendKeyExpiry() {
+    const keyInput = document.getElementById('extendKeyInput');
+    const daysInput = document.getElementById('extendDaysInput');
+
+    const key = keyInput.value.trim();
+    const daysStr = daysInput.value.trim();
+
+    if (!key || !daysStr) {
+        alert("Please enter both a license key and the number of days.");
+        return;
+    }
+
+    let days;
+    try {
+        days = parseFloat(daysStr);
+        if (isNaN(days)) throw new Error("Invalid number");
+    } catch (e) {
+        alert("Please enter a valid number for days.");
+        return;
+    }
+
+
+    document.getElementById('AdminMessage').textContent = `Updating expiry for key ${key.substring(0, 8)}...`;
+    document.getElementById('AdminData').style.display = 'none';
+
+    const data = await callEndpoint('extend_key_expiry', { key, days: days.toString() }); // Send days as string
+    if (data) {
+        if (data.status === 'success') {
+            document.getElementById('AdminMessage').textContent = `✅ ${data.message}`;
+            if (data.new_expiry_date) {
+                document.getElementById('AdminMessage').textContent += ` New Expiry: ${data.new_expiry_date}`;
+            }
+            keyInput.value = '';
+            daysInput.value = '';
+            // Optionally, refresh analytics
+            // setTimeout(fetchAnalytics, 1000);
+        } else {
+            document.getElementById('AdminMessage').textContent = `❌ Error: ${data.message}`;
+        }
+    } // Error handling is inside callEndpoint
+  }
+
+  // --- Logout Admin (from Nav Link) ---
+  function logoutAdminNav() {
+      logoutAdmin(); // Call the main logout function
+      // Remove the SA Logout link itself
+      const nav = document.querySelector("nav");
+      const saLogoutLink = nav.querySelector("a[onclick='logoutAdminNav()']");
+      if (saLogoutLink) {
+          nav.removeChild(saLogoutLink);
+      }
+  }
+
+  // --- Logout  Admin (Main Logic) ---
+  function logoutAdmin() {
+    localStorage.removeItem("_admin_token");
+    document.getElementById('AdminSection').style.display = 'none';
+    // Reset input fields and messages
+    document.getElementById('revokeKeyInput').value = '';
+    document.getElementById('extendKeyInput').value = '';
+    document.getElementById('extendDaysInput').value = '';
+    document.getElementById('AdminMessage').textContent = "Please fetch analytics or use a control.";
+    document.getElementById('AdminData').style.display = 'none';
+    // Show the standard login section again
+    document.getElementById('loginSection').style.display = 'block';
+    console.log("[ Admin] Logged out.");
+  }
+  // ========== END ADMIN JAVASCRIPT FUNCTIONS ==========
 
 </script>
 </body>

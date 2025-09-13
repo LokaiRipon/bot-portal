@@ -162,6 +162,12 @@
         </a>
         <span class="tooltiptext">Chat with the Vendor</span>
       </div>
+      <div class="tooltip" id="superadmin-link" style="display:none;">
+        <a href="#" onclick="showSuperAdminLogin(); return false;">
+          <i class="fas fa-user-shield"></i> Super Admin
+        </a>
+        <span class="tooltiptext">Super Admin Panel</span>
+      </div>
     </nav>
   </header>
 
@@ -184,6 +190,29 @@
     </ul>
   </section>
 
+  <section class="hero" id="superadmin-login-section" style="display:none; margin-top: 3rem;">
+    <h2 style="color: #f9d342;"><i class="fas fa-user-shield"></i> Super Admin Login</h2>
+    <p>Enter your Super Admin token to access advanced controls.</p>
+    <input type="password" id="superadmin-token" placeholder="Enter Admin Token" 
+           style="padding: 0.5rem; border-radius: 5px; border: none; width: 250px; margin-bottom: 1rem;">
+    <br>
+    <button class="download-btn" id="superadmin-login-btn">
+      <i class="fas fa-sign-in-alt"></i> Login
+    </button>
+    <p id="superadmin-login-status" style="margin-top: 1rem; color: #ff6666;"></p>
+  </section>
+
+  <!-- Hidden Super Admin Panel -->
+  <section class="hero" id="superadmin-panel" style="display:none; margin-top: 3rem; text-align:left; max-width:800px; margin-left:auto; margin-right:auto;">
+    <h2 style="color: #f9d342;">Super Admin Panel</h2>
+
+    <!-- Analytics -->
+    <div id="analytics-section" style="margin-top: 1.5rem;">
+      <h3><i class="fas fa-chart-line"></i> Analytics Summary</h3>
+      <pre id="analytics-output" style="background:#1b263b; padding:1rem; border-radius:5px; overflow-x:auto; color:#f0f0f0;">Loading...</pre>
+    </div>
+  </section>
+
   <footer>
     &copy; 2025 LokaiRipon. All rights reserved. <br>
     Support:
@@ -201,5 +230,116 @@
     </div>
   </footer>
 
+
+  
+<!-- JS code -->
+  <script>
+  let superAdminToken = null;
+  const ADMIN_ENDPOINT = "https://hbase-render.onrender.com/api/a1b2c3d4e5f67890"; // Your ADMIN_PATH
+
+  // Keep your existing reveal function but extend it
+  window.revealSuperAdmin = function(secret) {
+    if (secret === "f7d01dbc") {
+      document.getElementById("superadmin-link").style.display = "inline-block";
+      document.getElementById("superadmin-login-section").style.display = "block";
+      alert("Super Admin link revealed! Please log in.");
+    } else {
+      alert("Wrong code.");
+    }
+  };
+  
+  function showSuperAdminLogin() {
+    // Scroll to and reveal the login section
+    const loginSection = document.getElementById("superadmin-login-section");
+    loginSection.style.display = "block";
+    loginSection.scrollIntoView({ behavior: "smooth" });
+  }
+
+  async function callSuperAdmin(action, data = {}) {
+      if (!superAdminToken) throw new Error("No admin token set.");
+      const response = await fetch(ADMIN_ENDPOINT, {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization": superAdminToken
+          },
+          body: JSON.stringify({ action, data })
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+      return await response.json();
+  }
+
+  // Handle login
+  document.getElementById("superadmin-login-btn").addEventListener("click", async () => {
+      const token = document.getElementById("superadmin-token").value.trim();
+      const statusEl = document.getElementById("superadmin-login-status");
+      statusEl.textContent = "Authenticating...";
+      try {
+          superAdminToken = token;
+          const res = await callSuperAdmin("ping");
+          if (res.status === "success") {
+              statusEl.style.color = "#66ff66";
+              statusEl.textContent = "Login successful!";
+              document.getElementById("superadmin-login-section").style.display = "none";
+              document.getElementById("superadmin-panel").style.display = "block";
+              loadAnalytics();
+          } else {
+              throw new Error(res.message || "Invalid token");
+          }
+      } catch (err) {
+          statusEl.style.color = "#ff6666";
+          statusEl.textContent = "Login failed: " + err.message;
+          superAdminToken = null;
+      }
+  });
+
+  async function loadAnalytics() {
+    const output = document.getElementById("analytics-output");
+    output.textContent = "Loading..."; // keep your original behaviour
+
+    try {
+        const res = await callSuperAdmin("view_analytics_summary");
+        if (res.status === "success" && res.data) {
+            const data = res.data;
+
+            // Build the cards HTML
+            const cardsHTML = `
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+                    ${statCard("Total Keys Issued", data.total_keys_issued, "fas fa-key")}
+                    ${statCard("Active Licenses", data.active_licenses, "fas fa-check-circle")}
+                    ${statCard("Expired Licenses", data.expired_licenses, "fas fa-times-circle")}
+                    ${statCard("Activated Keys", data.activated_keys, "fas fa-plug")}
+                    ${statCard("Avg F8 Presses", data.avg_f8_presses_estimate, "fas fa-keyboard")}
+                    ${statCard("Recent API Errors", data.recent_api_errors_estimate, "fas fa-exclamation-triangle")}
+                </div>
+            `;
+
+            // Replace the loading text with the cards
+            output.innerHTML = cardsHTML;
+        } else {
+            output.innerHTML = `<p style="color:#ff6666;">Error: ${res.message}</p>`;
+        }
+    } catch (err) {
+        output.innerHTML = `<p style="color:#ff6666;">Error: ${err.message}</p>`;
+    }
+  }
+
+  // Helper to build a stat card
+  function statCard(label, value, icon) {
+      return `
+          <div style="
+              background:#1b263b;
+              padding:1rem;
+              border-radius:8px;
+              box-shadow:0 2px 5px rgba(0,0,0,0.3);
+              text-align:center;
+          ">
+              <i class="${icon}" style="font-size:1.5rem; color:#f9d342;"></i>
+              <h3 style="margin:0.5rem 0; color:#f0f0f0;">${value}</h3>
+              <p style="margin:0; font-size:0.9rem; color:#ccc;">${label}</p>
+          </div>
+      `;
+  }
+  </script>
 </body>
 </html>

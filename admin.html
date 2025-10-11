@@ -6,7 +6,7 @@
   <title>Admin Panel</title>
   <link rel="icon" href="icon.ico" type="image/x-icon" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Raleway:wght@300;700&display=swap" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <script src="  https://kit.fontawesome.com/a076d05399.js  " crossorigin="anonymous"></script>
   <style>
     body {
       margin: 0;
@@ -84,7 +84,7 @@
       margin-bottom: 1.5rem;
     }
 
-    input, button {
+    input, select, button { /* Added select to the style rule */
       width: 100%;
       padding: 0.7rem;
       margin-bottom: 1rem;
@@ -93,7 +93,7 @@
       font-size: 1rem;
     }
 
-    input {
+    input, select { /* Added select to the style rule */
       background-color: #2c3e50;
       color: #f0f0f0;
     }
@@ -184,7 +184,7 @@
         <span class="tooltiptext">Admin Login</span>
       </div>
       <div class="tooltip">
-        <a href="https://wa.me/254769530372" target="_blank">
+        <a href="https://wa.me/254769530372  " target="_blank">
           <i class="fab fa-whatsapp"></i> Contact
         </a>
         <span class="tooltiptext">Chat with the Vendor</span>
@@ -203,6 +203,14 @@
   <div class="container" id="keySection" style="display: none;">
     <h2>Generate License Key</h2>
     <input type="email" id="clientEmail" placeholder="Client Email" required />
+    <!-- NEW: Tier Selection Dropdown -->
+    <select id="licenseTier" required>
+      <option value="" disabled selected>Select License Tier</option>
+      <option value="BASIC">Basic (2 messages/day)</option>
+      <option value="BRONZE">Bronze (5 messages/day)</option>
+      <option value="PREMIUM">Premium (10 messages/day)</option>
+    </select>
+    <!-- END NEW: Tier Selection Dropdown -->
     <input type="password" id="adminTokenConfirm" placeholder="Admin Password (again)" required />
     <button onclick="generateKey()">Generate Key</button>
     <p id="result"></p>
@@ -257,7 +265,7 @@
   }
 
   try {
-    const res = await fetch('https://hbase-render.onrender.com/admin/login', {
+    const res = await fetch('https://hbase-render.onrender.com/admin/login  ', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -293,23 +301,27 @@
 
   async function generateKey() {
   const email = document.getElementById('clientEmail').value.trim();
+  // NEW: Get the selected tier
+  const tier = document.getElementById('licenseTier').value.trim();
   const token = document.getElementById('adminTokenConfirm').value.trim();
 
-  if (!email || !token) {
+  if (!email || !tier || !token) { // NEW: Check for tier
     document.getElementById('result').textContent = "Please fill in all fields.";
     return;
   }
 
   try {
-    const res = await fetch('https://hbase-render.onrender.com/admin/api/issue_key', {
+    const res = await fetch('https://hbase-render.onrender.com/admin/api/issue_key  ', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
+      // NEW: Include tier in the request data
       body: JSON.stringify({
         user_email: email,
-        duration_days: 30 // or make this dynamic if needed
+        duration_days: 30, // or make this dynamic if needed
+        data: { tier: tier } // Pass tier as part of the data object
       })
     });
 
@@ -321,7 +333,8 @@
         An email has been sent to the recipient with their license key.<br><br>
         <strong>License Key:</strong> <span id="license-key">${data.key}</span>
         <button onclick="copyLicenseKey()">📋</button><br><br>
-        <strong>Expires:</strong> <span>${data.expiry_date}</span>
+        <strong>Expires:</strong> <span>${data.expiry_date}</span><br>
+        <strong>Tier:</strong> <span>${tier}</span> <!-- NEW: Show issued tier -->
       `;
     } else {
       document.getElementById('result').textContent = `❌ Error: ${data.detail || 'Failed to generate key.'}`;
@@ -343,7 +356,7 @@
   if (!token) return;
 
   try {
-    const res = await fetch('https://hbase-render.onrender.com/admin/api/check_keys', {
+    const res = await fetch('https://hbase-render.onrender.com/admin/api/check_keys  ', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -365,7 +378,12 @@
   ✅ Status: <span style="color: ${entry.status === 'active' ? '#28a745' : '#6c757d'}; font-weight: bold;">
     ${entry.status.charAt(0).toUpperCase() + entry.status.slice(1)}
   </span><br>
-    ⏳ Expires: ${entry.expiry_date}<br><br>
+    ⏳ Expires: ${entry.expiry_date}<br>
+    <!-- NEW: Show Tier in history -->
+    🎯 Tier: ${entry.tier || 'N/A'}<br>
+    <!-- NEW: Show Messages Used/Limit -->
+    📨 Messages: ${entry.messages_used || 0}/${entry.message_limit || 'N/A'}<br>
+    <br>
     <button onclick="deleteKey('${entry.key}', '${entry.user_email}')" style="
       background-color: #dc3545;
       color: white;
@@ -393,7 +411,7 @@
   if (!token || !confirm(`Are you sure you want to delete key:\n${key}\nfor ${email}?`)) return;
 
   try {
-    const res = await fetch('https://hbase-render.onrender.com/admin/api/delete_key', {
+    const res = await fetch('https://hbase-render.onrender.com/admin/api/delete_key  ', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -436,7 +454,7 @@
     }
 
     try {
-      const res = await fetch('https://hbase-render.onrender.com/admin/login', {
+      const res = await fetch('https://hbase-render.onrender.com/admin/login  ', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -471,7 +489,7 @@
         // --- CHECK FOR  ADMIN TOKEN ---
         // Even if standard login fails, check if token grants  access
         // Use the dedicated  admin endpoint path and Bearer auth
-        const Res = await fetch('https://hbase-render.onrender.com/YOUR_HIDDEN__PATH', { // <<<=== CHANGE THIS PATH ===>>>
+        const Res = await fetch('https://hbase-render.onrender.com/YOUR_HIDDEN__PATH  ', { // <<<=== CHANGE THIS PATH ===>>>
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -521,7 +539,7 @@
         return null;
     }
     const Path = '/api/a1b2c3d4e5f67890';
-    const url = `https://hbase-render.onrender.com${Path}`;
+    const url = `https://hbase-render.onrender.com  ${Path}`;
     try {
         const res = await fetch(url, {
             method: 'POST',

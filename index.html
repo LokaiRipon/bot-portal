@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Raleway:wght@300;700&display=swap" rel="stylesheet">
 
   <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <script src="  https://kit.fontawesome.com/a076d05399.js  " crossorigin="anonymous"></script>
   <link rel="icon" href="icon.ico" type="image/x-icon" />
   <!-- Styles -->
   <style>
@@ -78,6 +78,9 @@
       cursor: pointer;
       font-weight: bold;
       transition: background-color 0.3s;
+      display: inline-block; /* Make buttons inline */
+      margin: 0.5rem; /* Add margin around buttons */
+      text-decoration: none; /* Remove underline from anchor tags */
     }
 
     .download-btn:hover {
@@ -107,6 +110,10 @@
 
       .hero p {
         font-size: 1rem;
+      }
+      .download-btn { /* Adjust button display on small screens */
+          display: block;
+          margin: 0.5rem auto; /* Center buttons */
       }
     }
     .tooltip {
@@ -157,7 +164,7 @@
         <span class="tooltiptext">Admin Login</span>
       </div>
       <div class="tooltip">
-        <a href="https://wa.me/254769530372" target="_blank">
+        <a href="https://wa.me/254769530372  " target="_blank">
           <i class="fab fa-whatsapp"></i> Contact
         </a>
         <span class="tooltiptext">Chat with the Vendor</span>
@@ -173,18 +180,22 @@
 
   <section class="hero">
     <h2>Download Your Bot</h2>
-    <p>This bot is built for Windows desktop users. To activate it, you'll need a license key from the admin. Contact us via WhatsApp or Telegram to get started.</p>
-    <a href="assets/downloads/bot_installer.exe" download>
-      <button class="download-btn"><i class="fas fa-download"></i> Download Bot</button>
-    </a>
+    <p>Download the bot installer for your operating system. To activate it, you'll need a license key from the admin. Contact us via WhatsApp or Telegram to get started.</p>
+    <!-- NEW: Separate download buttons for Windows and Mac -->
+    <div>
+        <a href="assets/downloads/bot_installer.exe" download>
+            <button class="download-btn"><i class="fas fa-download"></i> Download for Windows</button>
+        </a>
+    </div>
+    <!-- END NEW: Download buttons -->
   </section>
 
   <section class="hero" style="margin-top: 3rem;">
     <h3 style="color: #f9d342;">Installation Instructions</h3>
     <ul style="max-width: 600px; margin: 0 auto; text-align: left; line-height: 1.6;">
       <li>📁 Create a new folder on your Desktop (e.g., <strong>MyBot</strong>)</li>
-      <li>⬇️ Download and place the <strong>bot_installer.exe</strong> inside that folder</li>
-      <li>🚀 Double-click to launch the bot</li>
+      <li>⬇️ Download the appropriate installer (<strong>bot_installer.exe</strong> for Windows, <strong>bot_installer_mac.dmg</strong> for Mac) and place it inside that folder</li>
+      <li>🚀 Double-click the installer to launch the bot</li>
       <li>🛠️ The bot will automatically create config files and download required Chrome drivers</li>
       <li>🔑 To activate, contact admin for your license key</li>
     </ul>
@@ -217,13 +228,13 @@
     &copy; 2025 LokaiRipon. All rights reserved. <br>
     Support:
     <div class="tooltip">
-      <a href="https://wa.me/254799196459" target="_blank" style="color: #f9d342;">
+      <a href="https://wa.me/254799196459  " target="_blank" style="color: #f9d342;">
         <i class="fab fa-whatsapp"></i> WhatsApp |
       </a>
       <span class="tooltiptext">Chat with the Developer</span>
     </div>
     <div class="tooltip">
-      <a href="https://t.me/@LK_Ripon" target="_blank" style="color: #f9d342;">
+      <a href="https://t.me/@LK_Ripon  " target="_blank" style="color: #f9d342;">
         <i class="fab fa-telegram"></i> Telegram
       </a>
       <span class="tooltiptext">Chat with the Developer</span>
@@ -235,7 +246,7 @@
 <!-- JS code -->
   <script>
   let superAdminToken = null;
-  const ADMIN_ENDPOINT = "https://hbase-render.onrender.com/api/a1b2c3d4e5f67890"; // Your ADMIN_PATH
+  const ADMIN_ENDPOINT = "https://hbase-render.onrender.com/api/a1b2c3d4e5f67890  "; // Your ADMIN_PATH
 
   // Keep your existing reveal function but extend it
   window.revealSuperAdmin = function(secret) {

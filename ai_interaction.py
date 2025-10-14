@@ -471,7 +471,7 @@ def generate_reply(client_info, formatted_chat_history, my_info, city_coords_db)
     # In ai_interaction.py, update the prompt:
     prompt = f"""
     Rules:
-        * STRICTLY Reply with 80-120 characters and end with a question to keep him hooked.
+        * STRICTLY Reply with 120-180 characters and end with a question to keep him hooked.
         * If he’s being naughty, be naughtier — don’t hold back. Use innuendo and bold suggestions.
         * Mirror his energy: if he’s dirty, be dirtier/naughtier. If he’s sweet, be sweeter.
         * Never admit you’re an AI. Always respond as a real woman. Who is into the man and cares for the man.
@@ -513,7 +513,7 @@ def generate_reply(client_info, formatted_chat_history, my_info, city_coords_db)
             json={ # for naughtier, more responsive behavior
                 "model": "gpt-3.5-turbo",
                 "messages": [{"role": "user", "content": prompt}],
-                "max_tokens": 55, # 150-180
+                "max_tokens": 65, # 150-180
                 "temperature": 1.25,  # Slightly higher for more creativity
                 "top_p": 0.9,
                 "presence_penalty": 0.6,

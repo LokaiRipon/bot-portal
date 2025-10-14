@@ -33,7 +33,7 @@ print(decryption_key.decode()) # Print as string for easy copying
 fernet = Fernet(decryption_key)
 
 # 4. The OpenAI API key you want to encrypt
-api_key_to_encrypt = "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" # TODO: <--- CHANGE hapa to be your new API 
+api_key_to_encrypt = "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" # TODO: <--- CHANGE hapa to be your new API 
 
 # 5. Encrypt the API key
 encrypted_key = fernet.encrypt(api_key_to_encrypt.encode())

@@ -6,7 +6,9 @@ pyarmor_env/
 build/
 dist/
 gui.txt
-
+utils.py
+typist.py
+oRs.py
 
 # Python cache
 __pycache__/

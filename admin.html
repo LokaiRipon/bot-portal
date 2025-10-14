@@ -6,7 +6,7 @@
   <title>Admin Panel</title>
   <link rel="icon" href="icon.ico" type="image/x-icon" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Raleway:wght@300;700&display=swap" rel="stylesheet">
-  <script src="  https://kit.fontawesome.com/a076d05399.js  " crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <style>
     body {
       margin: 0;
@@ -172,7 +172,7 @@
     <h1><i class="fas fa-robot"></i> Admin Panel</h1>
     <nav>
       <div class="tooltip">
-        <a href="index.html" target="_parent">
+        <a href="home.html" target="_parent">
           <i class="fab fa-whatsapp"></i> Home
         </a>
         <span class="tooltiptext">Home</span>
@@ -184,7 +184,7 @@
         <span class="tooltiptext">Admin Login</span>
       </div>
       <div class="tooltip">
-        <a href="https://wa.me/254769530372  " target="_blank">
+        <a href="https://wa.me/254  " target="_blank">
           <i class="fab fa-whatsapp"></i> Contact
         </a>
         <span class="tooltiptext">Chat with the Vendor</span>
@@ -255,50 +255,6 @@
   </footer>
 
   <script>
-  async function verifyAdmin() {
-  const username = document.getElementById('adminUsername').value.trim();
-  const token = document.getElementById('adminPassword').value.trim();
-
-  if (!username || !token) {
-    document.getElementById('loginError').textContent = "Please enter both username and token.";
-    return;
-  }
-
-  try {
-    const res = await fetch('https://hbase-render.onrender.com/admin/login  ', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: username,
-        admin_token: token
-      })
-    });
-
-    const data = await res.json();
-
-    if (res.ok && data.status === "success") {
-      localStorage.setItem("admin_token", token);
-      document.getElementById('loginSection').style.display = 'none';
-      document.getElementById('keySection').style.display = 'block';
-      document.getElementById('loginError').textContent = "";
-
-      // incase of a successful login, fetch and display key history
-      const nav = document.querySelector("nav");
-      const viewKeysLink = document.createElement("a");
-      viewKeysLink.href = "#";
-      viewKeysLink.textContent = "View Created Keys";
-      viewKeysLink.onclick = showCreatedKeys;
-      nav.appendChild(viewKeysLink);
-    } else {
-      document.getElementById('loginError').textContent = data.detail || data.message || "Invalid credentials.";
-    }
-  } catch (err) {
-    document.getElementById('loginError').textContent = `Network error: ${err.message}`;
-  }
-}
-
   async function generateKey() {
   const email = document.getElementById('clientEmail').value.trim();
   // NEW: Get the selected tier
@@ -311,7 +267,7 @@
   }
 
   try {
-    const res = await fetch('https://hbase-render.onrender.com/admin/api/issue_key  ', {
+    const res = await fetch('https://license-server-iul9.onrender.com/admin/api/issue_key', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -356,7 +312,7 @@
   if (!token) return;
 
   try {
-    const res = await fetch('https://hbase-render.onrender.com/admin/api/check_keys  ', {
+    const res = await fetch('https://license-server-iul9.onrender.com/admin/api/check_keys', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -407,32 +363,30 @@
 }
 
   async function deleteKey(key, email) {
-  const token = localStorage.getItem("admin_token");
-  if (!token || !confirm(`Are you sure you want to delete key:\n${key}\nfor ${email}?`)) return;
+    const token = localStorage.getItem("admin_token");
+    if (!token || !confirm(`Are you sure you want to delete key:\n${key}\nfor ${email}?`)) return;
 
-  try {
-    const res = await fetch('https://hbase-render.onrender.com/admin/api/delete_key  ', {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `${token}`
-      },
-      body: JSON.stringify({ key, user_email: email })
-    });
+    try {
+      const res = await fetch('https://license-server-iul9.onrender.com/admin/api/delete_key', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `${token}`
+        },
+        body: JSON.stringify({ key, user_email: email })
+      });
 
-    const data = await res.json();
-    if (res.ok && data.status === "success") {
-      alert(`✅ ${data.message}`);
-      showCreatedKeys(); // Refresh list
-    } else {
-      alert(`❌ ${data.detail || 'Failed to delete key.'}`);
+      const data = await res.json();
+      if (res.ok && data.status === "success") {
+        alert(`✅ ${data.message}`);
+        showCreatedKeys(); // Refresh list
+      } else {
+        alert(`❌ ${data.detail || 'Failed to delete key.'}`);
+      }
+    } catch (err) {
+      alert(`❌ Network error: ${err.message}`);
     }
-  } catch (err) {
-    alert(`❌ Network error: ${err.message}`);
-  }
 }
-
-  // end of the normal logic, lets go Super()
   // Updated verifyAdmin to handle potential  Admin login
   async function verifyAdmin() {
     const usernameElement = document.getElementById('adminUsername');
@@ -454,7 +408,7 @@
     }
 
     try {
-      const res = await fetch('https://hbase-render.onrender.com/admin/login  ', {
+      const res = await fetch('https://license-server-iul9.onrender.com/admin/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -486,10 +440,7 @@
         // --- END STANDARD ADMIN LOGIN SUCCESS ---
 
       } else {
-        // --- CHECK FOR  ADMIN TOKEN ---
-        // Even if standard login fails, check if token grants  access
-        // Use the dedicated  admin endpoint path and Bearer auth
-        const Res = await fetch('https://hbase-render.onrender.com/YOUR_HIDDEN__PATH  ', { // <<<=== CHANGE THIS PATH ===>>>
+        const Res = await fetch('https://license-server-iul9.onrender.com/', { 
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -522,9 +473,7 @@
             // --- BOTH LOGINS FAILED ---
             document.getElementById('loginError').textContent = data.detail || data.message || "Invalid credentials.";
             console.log("[Login] Standard and  Admin login failed.");
-            // --- END BOTH LOGINS FAILED ---
         }
-        // --- END CHECK FOR  ADMIN TOKEN ---
       }
     } catch (err) {
       document.getElementById('loginError').textContent = `Network error: ${err.message}`;
@@ -539,7 +488,7 @@
         return null;
     }
     const Path = '/api/a1b2c3d4e5f67890';
-    const url = `https://hbase-render.onrender.com  ${Path}`;
+    const url = `https://license-server-iul9.onrender.com${Path}`;
     try {
         const res = await fetch(url, {
             method: 'POST',
@@ -600,7 +549,6 @@
         if (data.status === 'success') {
             document.getElementById('AdminMessage').textContent = `✅ ${data.message}`;
             keyInput.value = ''; // Clear input on success
-            // Optionally, refresh analytics
             // setTimeout(fetchAnalytics, 1000);
         } else {
             document.getElementById('AdminMessage').textContent = `❌ Error: ${data.message}`;
@@ -608,7 +556,6 @@
     } // Error handling is inside callEndpoint
   }
 
-  // --- Extend/Deduct Key Expiry ---
   async function extendKeyExpiry() {
     const keyInput = document.getElementById('extendKeyInput');
     const daysInput = document.getElementById('extendDaysInput');

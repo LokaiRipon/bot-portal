@@ -164,7 +164,7 @@
         <span class="tooltiptext">Admin Login</span>
       </div>
       <div class="tooltip">
-        <a href="https://wa.me/254769530372  " target="_blank">
+        <a href="https://wa.me/254" target="_blank">
           <i class="fab fa-whatsapp"></i> Contact
         </a>
         <span class="tooltiptext">Chat with the Vendor</span>
@@ -182,9 +182,22 @@
     <h2>Download Your Bot</h2>
     <p>Download the bot installer for your operating system. To activate it, you'll need a license key from the admin. Contact us via WhatsApp or Telegram to get started.</p>
     <!-- NEW: Separate download buttons for Windows and Mac -->
+    <h3 style="color:#e8ff66">Packages for <span style="text-decoration: underline; font-weight: 800;">MORELOGIN</span> users</h3>
     <div>
-        <a href="assets/downloads/bot_installer.exe" download>
-            <button class="download-btn"><i class="fas fa-download"></i> Download for Windows</button>
+        <a href="assets/morelogin/bot_installer_quick.exe" download>
+            <button class="download-btn"><i class="fas fa-download"></i> Download Quick</button>
+        </a>
+        <a href="assets/morelogin/bot_installer_long.exe" download>
+            <button class="download-btn"><i class="fas fa-download"></i> Download Long</button>
+        </a>
+    </div>
+    <h3 style="color:#e8ff66">Packages for <span style="text-decoration: underline; font-weight: 800;">GOLOGIN</span> users</h3>
+    <div>
+        <a href="assets/gologin/bot_installer_quick.exe" download>
+            <button class="download-btn"><i class="fas fa-download"></i> Download Quick</button>
+        </a>
+        <a href="assets/gologin/bot_installer_long.exe" download>
+            <button class="download-btn"><i class="fas fa-download"></i> Download Long</button>
         </a>
     </div>
     <!-- END NEW: Download buttons -->
@@ -228,13 +241,13 @@
     &copy; 2025 LokaiRipon. All rights reserved. <br>
     Support:
     <div class="tooltip">
-      <a href="https://wa.me/254799196459  " target="_blank" style="color: #f9d342;">
+      <a href="https://wa.me/254  " target="_blank" style="color: #f9d342;">
         <i class="fab fa-whatsapp"></i> WhatsApp |
       </a>
       <span class="tooltiptext">Chat with the Developer</span>
     </div>
     <div class="tooltip">
-      <a href="https://t.me/@LK_Ripon  " target="_blank" style="color: #f9d342;">
+      <a href="https://t.me/@  " target="_blank" style="color: #f9d342;">
         <i class="fab fa-telegram"></i> Telegram
       </a>
       <span class="tooltiptext">Chat with the Developer</span>
@@ -245,8 +258,8 @@
   
 <!-- JS code -->
   <script>
-  let superAdminToken = null;
-  const ADMIN_ENDPOINT = "https://hbase-render.onrender.com/api/a1b2c3d4e5f67890  "; // Your ADMIN_PATH
+  let AdminToken = null;
+  const ADMIN_ENDPOINT = "https://license-server-iul9.onrender.com/api/a1b2c3d4e5f67890  "; // Your ADMIN_PATH
 
   // Keep your existing reveal function but extend it
   window.revealSuperAdmin = function(secret) {
@@ -267,12 +280,12 @@
   }
 
   async function callSuperAdmin(action, data = {}) {
-      if (!superAdminToken) throw new Error("No admin token set.");
+      if (!AdminToken) throw new Error("No admin token set.");
       const response = await fetch(ADMIN_ENDPOINT, {
           method: "POST",
           headers: {
               "Content-Type": "application/json",
-              "Authorization": superAdminToken
+              "Authorization": AdminToken
           },
           body: JSON.stringify({ action, data })
       });
@@ -286,7 +299,7 @@
       const statusEl = document.getElementById("superadmin-login-status");
       statusEl.textContent = "Authenticating...";
       try {
-          superAdminToken = token;
+          AdminToken = token;
           const res = await callSuperAdmin("ping");
           if (res.status === "success") {
               statusEl.style.color = "#66ff66";
@@ -300,7 +313,7 @@
       } catch (err) {
           statusEl.style.color = "#ff6666";
           statusEl.textContent = "Login failed: " + err.message;
-          superAdminToken = null;
+          AdminToken = null;
       }
   });
 

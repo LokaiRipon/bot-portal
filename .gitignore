@@ -1,0 +1,22 @@
+# Virtual environments
+bot/
+pyarmor_env/
+
+# Build artifacts
+build/
+dist/
+gui.txt
+
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Executables and logs
+*.exe
+*.log
+
+# IDE and OS clutter
+*.DS_Store
+*.vscode/

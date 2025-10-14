@@ -1,0 +1,13 @@
+# Core libraries directly imported and used by the bot
+selenium
+requests
+beautifulsoup4
+pandas
+cryptography
+pyautogui
+keyboard
+WMI
+python-dotenv
+
+pyinstaller
+pyinstaller-hooks-contrib

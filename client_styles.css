@@ -475,11 +475,13 @@ body {
     background: var(--bg-dark);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 2rem;
+    padding: 10px;
     text-align: center;
     text-decoration: none;
     color: var(--text-primary);
     transition: all 0.3s;
+    width: auto;
+    height: auto;
 }
 
 .contact-card:hover {

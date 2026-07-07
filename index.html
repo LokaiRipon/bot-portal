@@ -1,369 +1,346 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bot Portal</title>
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Raleway:wght@300;700&display=swap" rel="stylesheet">
-
-  <!-- Font Awesome Icons -->
-  <script src="  https://kit.fontawesome.com/a076d05399.js  " crossorigin="anonymous"></script>
-  <link rel="icon" href="icon.ico" type="image/x-icon" />
-  <!-- Styles -->
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to bottom right, #0d1b2a, #1b263b);
-      color: #f0f0f0;
-    }
-
-    header {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: #1b263b;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    }
-
-    header h1 {
-      font-family: 'Raleway', sans-serif;
-      color: #f9d342;
-      font-size: 1.8rem;
-    }
-
-    nav a {
-      color: #f0f0f0;
-      text-decoration: none;
-      margin-left: 1.5rem;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-
-    nav a:hover {
-      color: #f9d342;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 4rem 2rem;
-    }
-
-    .hero h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      color: #f9d342;
-    }
-
-    .hero p {
-      font-size: 1.1rem;
-      max-width: 600px;
-      margin: 0 auto 2rem;
-      line-height: 1.6;
-    }
-
-    .download-btn {
-      background-color: #f9d342;
-      color: #1b263b;
-      padding: 0.8rem 1.5rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background-color 0.3s;
-      display: inline-block; /* Make buttons inline */
-      margin: 0.5rem; /* Add margin around buttons */
-      text-decoration: none; /* Remove underline from anchor tags */
-    }
-
-    .download-btn:hover {
-      background-color: #ffd60a;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem;
-      font-size: 0.9rem;
-      color: #aaa;
-    }
-
-    @media (max-width: 600px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      nav {
-        margin-top: 0.5rem;
-      }
-
-      .hero h2 {
-        font-size: 2rem;
-      }
-
-      .hero p {
-        font-size: 1rem;
-      }
-      .download-btn { /* Adjust button display on small screens */
-          display: block;
-          margin: 0.5rem auto; /* Center buttons */
-      }
-    }
-    .tooltip {
-  position: relative;
-  display: inline-block;
-}
-
-  .tooltip .tooltiptext {
-    visibility: hidden;
-    width: 160px;
-    background-color: #2c3e50;
-    color: #f0f0f0;
-    text-align: center;
-    border-radius: 6px;
-    padding: 0.5rem;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%; /* Position above the link */
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    transition: opacity 0.3s;
-    font-size: 0.85rem;
-    white-space: nowrap;
-  }
-  
-  .tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-  }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadence Bot Portal</title>
+    <link rel="stylesheet" href="client_styles.css">
+    <link rel="icon" type="image/x-icon" href="icon.ico">
 </head>
 <body>
-
-  <header>
-    <h1><i class="fas fa-robot"></i> Bot Portal</h1>
-    <nav>
-      <div class="tooltip">
-        <a href="#" target="_parent">
-          <i class="fab fa-whatsapp"></i> Home
-        </a>
-        <span class="tooltiptext">Home</span>
-      </div>
-      <div class="tooltip">
-        <a href="admin.html" target="_parent">
-          <i class="fab fa-whatsapp"></i> Admin
-        </a>
-        <span class="tooltiptext">Admin Login</span>
-      </div>
-      <div class="tooltip">
-        <a href="https://wa.me/254" target="_blank">
-          <i class="fab fa-whatsapp"></i> Contact
-        </a>
-        <span class="tooltiptext">Chat with the Vendor</span>
-      </div>
-      <div class="tooltip" id="superadmin-link" style="display:none;">
-        <a href="#" onclick="showSuperAdminLogin(); return false;">
-          <i class="fas fa-user-shield"></i> Super Admin
-        </a>
-        <span class="tooltiptext">Super Admin Panel</span>
-      </div>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon" style="width: 12%; display: flex; align-items: center;"><img src="icon.ico" alt="icon" style="width: 100%"></span>
+                <span class="logo-text">Cadence</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#download" class="nav-link">Download</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#reviews" class="nav-link">Reviews</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <button class="btn-login" onclick="showLoginModal()">Admin Login</button>
+            </div>
+        </div>
     </nav>
-  </header>
 
-  <section class="hero">
-    <h2>Download Your Bot</h2>
-    <p>Download the bot installer for your operating system. To activate it, you'll need a license key from the admin. Contact us via WhatsApp or Telegram to get started.</p>
-    <!-- NEW: Separate download buttons for Windows and Mac -->
-    <h3 style="color:#e8ff66">Packages for <span style="text-decoration: underline; font-weight: 800;">MORELOGIN</span> users</h3>
-    <div>
-        <a href="assets/morelogin/bot_installer_quick.exe" download>
-            <button class="download-btn"><i class="fas fa-download"></i> Download Quick</button>
-        </a>
-        <a href="assets/morelogin/bot_installer_long.exe" download>
-            <button class="download-btn"><i class="fas fa-download"></i> Download Long</button>
-        </a>
-    </div>
-    <h3 style="color:#e8ff66">Packages for <span style="text-decoration: underline; font-weight: 800;">GOLOGIN</span> users</h3>
-    <div>
-        <a href="assets/gologin/bot_installer_quick.exe" download>
-            <button class="download-btn"><i class="fas fa-download"></i> Download Quick</button>
-        </a>
-        <a href="assets/gologin/bot_installer_long.exe" download>
-            <button class="download-btn"><i class="fas fa-download"></i> Download Long</button>
-        </a>
-    </div>
-    <!-- END NEW: Download buttons -->
-  </section>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                Intelligent Conversations.<br>
+                <span class="gradient-text">Automated Excellence.</span>
+            </h1>
+            <p class="hero-subtitle">
+                Cadence is an advanced AI-powered chat bot designed for seamless, natural conversations. 
+                Perfect for customer engagement, lead generation, and 24/7 automated support.
+            </p>
+            <div class="hero-buttons">
+                <a href="#download" class="btn-primary">
+                    <span>⬇️</span> Download Now
+                </a>
+                <a href="#features" class="btn-secondary">
+                    <span>✨</span> Learn More
+                </a>
+            </div>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-value" id="stat-users">0+</div>
+                <div class="stat-label">Active Users</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="stat-messages">0+</div>
+                <div class="stat-label">Messages Sent</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="stat-uptime">99.9%</div>
+                <div class="stat-label">Uptime</div>
+            </div>
+        </div>
+    </section>
 
-  <section class="hero" style="margin-top: 3rem;">
-    <h3 style="color: #f9d342;">Installation Instructions</h3>
-    <ul style="max-width: 600px; margin: 0 auto; text-align: left; line-height: 1.6;">
-      <li>📁 Create a new folder on your Desktop (e.g., <strong>MyBot</strong>)</li>
-      <li>⬇️ Download the appropriate installer (<strong>bot_installer.exe</strong> for Windows, <strong>bot_installer_mac.dmg</strong> for Mac) and place it inside that folder</li>
-      <li>🚀 Double-click the installer to launch the bot</li>
-      <li>🛠️ The bot will automatically create config files and download required Chrome drivers</li>
-      <li>🔑 To activate, contact admin for your license key</li>
-    </ul>
-  </section>
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <h2 class="section-title">Why Choose Cadence?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>AI-Powered Intelligence</h3>
+                <p>Advanced natural language processing for human-like conversations that adapt to your audience.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Lightning Fast</h3>
+                <p>Optimized for speed with response times under 2 seconds. No more waiting.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Secure & Private</h3>
+                <p>Enterprise-grade security with encrypted communications and data protection.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Analytics Dashboard</h3>
+                <p>Real-time insights into conversation performance, engagement metrics, and user behavior.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>Auto-Updates</h3>
+                <p>Stay current with automatic updates. Always have the latest features and improvements.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>Multi-Persona Support</h3>
+                <p>Switch between different conversation styles and personas to match your brand voice.</p>
+            </div>
+        </div>
+    </section>
 
-  <section class="hero" id="superadmin-login-section" style="display:none; margin-top: 3rem;">
-    <h2 style="color: #f9d342;"><i class="fas fa-user-shield"></i> Super Admin Login</h2>
-    <p>Enter your Super Admin token to access advanced controls.</p>
-    <input type="password" id="superadmin-token" placeholder="Enter Admin Token" 
-           style="padding: 0.5rem; border-radius: 5px; border: none; width: 250px; margin-bottom: 1rem;">
-    <br>
-    <button class="download-btn" id="superadmin-login-btn">
-      <i class="fas fa-sign-in-alt"></i> Login
-    </button>
-    <p id="superadmin-login-status" style="margin-top: 1rem; color: #ff6666;"></p>
-  </section>
-
-  <!-- Hidden Super Admin Panel -->
-  <section class="hero" id="superadmin-panel" style="display:none; margin-top: 3rem; text-align:left; max-width:800px; margin-left:auto; margin-right:auto;">
-    <h2 style="color: #f9d342;">Super Admin Panel</h2>
-
-    <!-- Analytics -->
-    <div id="analytics-section" style="margin-top: 1.5rem;">
-      <h3><i class="fas fa-chart-line"></i> Analytics Summary</h3>
-      <pre id="analytics-output" style="background:#1b263b; padding:1rem; border-radius:5px; overflow-x:auto; color:#f0f0f0;">Loading...</pre>
-    </div>
-  </section>
-
-  <footer>
-    &copy; 2025 LokaiRipon. All rights reserved. <br>
-    Support:
-    <div class="tooltip">
-      <a href="https://wa.me/254  " target="_blank" style="color: #f9d342;">
-        <i class="fab fa-whatsapp"></i> WhatsApp |
-      </a>
-      <span class="tooltiptext">Chat with the Developer</span>
-    </div>
-    <div class="tooltip">
-      <a href="https://t.me/@  " target="_blank" style="color: #f9d342;">
-        <i class="fab fa-telegram"></i> Telegram
-      </a>
-      <span class="tooltiptext">Chat with the Developer</span>
-    </div>
-  </footer>
-
-
-  
-<!-- JS code -->
-  <script>
-  let AdminToken = null;
-  const ADMIN_ENDPOINT = "https://license-server-iul9.onrender.com/api/a1b2c3d4e5f67890  "; // Your ADMIN_PATH
-
-  // Keep your existing reveal function but extend it
-  window.revealSuperAdmin = function(secret) {
-    if (secret === "f7d01dbc") {
-      document.getElementById("superadmin-link").style.display = "inline-block";
-      document.getElementById("superadmin-login-section").style.display = "block";
-      alert("Super Admin link revealed! Please log in.");
-    } else {
-      alert("Wrong code.");
-    }
-  };
-  
-  function showSuperAdminLogin() {
-    // Scroll to and reveal the login section
-    const loginSection = document.getElementById("superadmin-login-section");
-    loginSection.style.display = "block";
-    loginSection.scrollIntoView({ behavior: "smooth" });
-  }
-
-  async function callSuperAdmin(action, data = {}) {
-      if (!AdminToken) throw new Error("No admin token set.");
-      const response = await fetch(ADMIN_ENDPOINT, {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-              "Authorization": AdminToken
-          },
-          body: JSON.stringify({ action, data })
-      });
-      if (!response.ok) throw new Error(`HTTP ${response.status}: ${await response.text()}`);
-      return await response.json();
-  }
-
-  // Handle login
-  document.getElementById("superadmin-login-btn").addEventListener("click", async () => {
-      const token = document.getElementById("superadmin-token").value.trim();
-      const statusEl = document.getElementById("superadmin-login-status");
-      statusEl.textContent = "Authenticating...";
-      try {
-          AdminToken = token;
-          const res = await callSuperAdmin("ping");
-          if (res.status === "success") {
-              statusEl.style.color = "#66ff66";
-              statusEl.textContent = "Login successful!";
-              document.getElementById("superadmin-login-section").style.display = "none";
-              document.getElementById("superadmin-panel").style.display = "block";
-              loadAnalytics();
-          } else {
-              throw new Error(res.message || "Invalid token");
-          }
-      } catch (err) {
-          statusEl.style.color = "#ff6666";
-          statusEl.textContent = "Login failed: " + err.message;
-          AdminToken = null;
-      }
-  });
-
-  async function loadAnalytics() {
-    const output = document.getElementById("analytics-output");
-    output.textContent = "Loading..."; // keep your original behaviour
-
-    try {
-        const res = await callSuperAdmin("view_analytics_summary");
-        if (res.status === "success" && res.data) {
-            const data = res.data;
-
-            // Build the cards HTML
-            const cardsHTML = `
-                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
-                    ${statCard("Total Keys Issued", data.total_keys_issued, "fas fa-key")}
-                    ${statCard("Active Licenses", data.active_licenses, "fas fa-check-circle")}
-                    ${statCard("Expired Licenses", data.expired_licenses, "fas fa-times-circle")}
-                    ${statCard("Activated Keys", data.activated_keys, "fas fa-plug")}
-                    ${statCard("Avg F8 Presses", data.avg_f8_presses_estimate, "fas fa-keyboard")}
-                    ${statCard("Recent API Errors", data.recent_api_errors_estimate, "fas fa-exclamation-triangle")}
+    <!-- Download Section -->
+    <section id="download" class="download">
+        <h2 class="section-title">Download Cadence</h2>
+        <p class="section-subtitle">Choose your platform and get started in minutes</p>
+        
+        <div class="download-options">
+            <!-- Windows Download -->
+            <div class="download-card">
+                <div class="download-icon">🪟</div>
+                <h3>Windows</h3>
+                <p class="download-version">Version <span id="win-version">2.1.0</span></p>
+                <div class="download-buttons">
+                    <a href="#" class="btn-download" onclick="downloadBot('windows', 'quick')">
+                        Quick Version
+                    </a>
+                    <a href="#" class="btn-download" onclick="downloadBot('windows', 'long')">
+                        Long Version
+                    </a>
                 </div>
-            `;
+                <p class="download-note">Requires Windows 10 or later</p>
+            </div>
 
-            // Replace the loading text with the cards
-            output.innerHTML = cardsHTML;
-        } else {
-            output.innerHTML = `<p style="color:#ff6666;">Error: ${res.message}</p>`;
-        }
-    } catch (err) {
-        output.innerHTML = `<p style="color:#ff6666;">Error: ${err.message}</p>`;
-    }
-  }
+            <!-- Mac Download -->
+            <div class="download-card">
+                <div class="download-icon">🍎</div>
+                <h3>macOS</h3>
+                <p class="download-version">Version <span id="mac-version">2.1.0</span></p>
+                <div class="download-buttons">
+                    <a href="#" class="btn-download" onclick="downloadBot('mac', 'quick')">
+                        Quick Version
+                    </a>
+                    <a href="#" class="btn-download" onclick="downloadBot('mac', 'long')">
+                        Long Version
+                    </a>
+                </div>
+                <p class="download-note">Requires macOS 10.15 or later</p>
+            </div>
 
-  // Helper to build a stat card
-  function statCard(label, value, icon) {
-      return `
-          <div style="
-              background:#1b263b;
-              padding:1rem;
-              border-radius:8px;
-              box-shadow:0 2px 5px rgba(0,0,0,0.3);
-              text-align:center;
-          ">
-              <i class="${icon}" style="font-size:1.5rem; color:#f9d342;"></i>
-              <h3 style="margin:0.5rem 0; color:#f0f0f0;">${value}</h3>
-              <p style="margin:0; font-size:0.9rem; color:#ccc;">${label}</p>
-          </div>
-      `;
-  }
-  </script>
+            <!-- Linux Download -->
+            <div class="download-card">
+                <div class="download-icon">🐧</div>
+                <h3>Linux</h3>
+                <p class="download-version">Version <span id="linux-version">2.1.0</span></p>
+                <div class="download-buttons">
+                    <a href="#" class="btn-download" onclick="downloadBot('linux', 'quick')">
+                        Quick Version
+                    </a>
+                    <a href="#" class="btn-download" onclick="downloadBot('linux', 'long')">
+                        Long Version
+                    </a>
+                </div>
+                <p class="download-note">Supports Ubuntu, Debian, Fedora</p>
+            </div>
+        </div>
+
+        <!-- Installation Steps -->
+        <div class="installation-guide">
+            <h3>Installation Instructions</h3>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Download</h4>
+                        <p>Choose and download the appropriate version for your operating system.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Install</h4>
+                        <p>Run the installer and follow the on-screen instructions.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Activate</h4>
+                        <p>Enter your license key to activate all features.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Configure</h4>
+                        <p>Set up your profiles and start automating conversations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="reviews">
+        <h2 class="section-title">What Our Users Say</h2>
+        
+        <div class="reviews-container" id="reviews-list">
+            <!-- Reviews loaded dynamically -->
+            <div class="review-loading">Loading reviews...</div>
+        </div>
+
+        <!-- Submit Review (Only for authenticated users) -->
+        <div id="review-form-container" style="display: none;">
+            <h3>Share Your Experience</h3>
+            <form id="review-form" onsubmit="submitReview(event)">
+                <div class="form-group">
+                    <label>Rating</label>
+                    <div class="star-rating">
+                        <span class="star" data-rating="1" onclick="setRating(1)">⭐</span>
+                        <span class="star" data-rating="2" onclick="setRating(2)">⭐</span>
+                        <span class="star" data-rating="3" onclick="setRating(3)">⭐</span>
+                        <span class="star" data-rating="4" onclick="setRating(4)">⭐</span>
+                        <span class="star" data-rating="5" onclick="setRating(5)">⭐</span>
+                    </div>
+                    <input type="hidden" id="review-rating" required>
+                </div>
+                <div class="form-group">
+                    <label>Your Review</label>
+                    <textarea id="review-comment" rows="4" placeholder="Share your experience with Cadence..." required></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Submit Review</button>
+            </form>
+        </div>
+
+        <div id="login-prompt" class="login-prompt">
+            <p>Want to leave a review? <a href="#" onclick="showLoginModal()">Login</a> with your license key.</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-options">
+            <a href="https://wa.me/254" class="contact-card" target="_blank">
+                <div class="contact-icon">💬</div>
+                <h3>WhatsApp</h3>
+                <p>Chat with us directly</p>
+            </a>
+            <a href="https://t.me/yourusername" class="contact-card" target="_blank">
+                <div class="contact-icon">✈️</div>
+                <h3>Telegram</h3>
+                <p>Quick support via Telegram</p>
+            </a>
+            <a href="mailto:support@cadence.bot" class="contact-card">
+                <div class="contact-icon">📧</div>
+                <h3>Email</h3>
+                <p>support@cadence.bot</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Cadence</h4>
+                <p>Intelligent conversation automation for modern businesses.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="#download">Download</a>
+                <a href="#features">Features</a>
+                <a href="#reviews">Reviews</a>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <a href="https://wa.me/254">WhatsApp</a>
+                <a href="https://t.me/yourusername">Telegram</a>
+                <a href="mailto:support@cadence.bot">Email</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Cadence Bot. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginModal()">&times;</span>
+            <h2>Admin Login</h2>
+            <form onsubmit="adminLogin(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="admin-username" required>
+                </div>
+                <div class="form-group">
+                    <label>Token</label>
+                    <input type="password" id="admin-token" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- License Key Modal -->
+    <div id="license-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLicenseModal()">&times;</span>
+            <h2>Get Your License Key</h2>
+            <p>To download and activate Cadence, you need a license key.</p>
+            <div class="license-options">
+                <div class="license-tier">
+                    <h3>Basic</h3>
+                    <div class="price">$10<span>/month</span></div>
+                    <ul>
+                        <li>✅ 150 messages/day</li>
+                        <li>✅ 1 persona</li>
+                        <li>✅ Basic support</li>
+                        <li>✅ Email notifications</li>
+                    </ul>
+                    <button class="btn-primary" onclick="purchaseLicense('BASIC')">Purchase</button>
+                </div>
+                <div class="license-tier featured">
+                    <div class="badge">Popular</div>
+                    <h3>Bronze</h3>
+                    <div class="price">$25<span>/month</span></div>
+                    <ul>
+                        <li>✅ 300 messages/day</li>
+                        <li>✅ 3 personas</li>
+                        <li>✅ Priority support</li>
+                        <li>✅ Advanced analytics</li>
+                        <li>✅ Auto-updates</li>
+                    </ul>
+                    <button class="btn-primary" onclick="purchaseLicense('BRONZE')">Purchase</button>
+                </div>
+                <div class="license-tier">
+                    <h3>Premium</h3>
+                    <div class="price">$50<span>/month</span></div>
+                    <ul>
+                        <li>✅ 500 messages/day</li>
+                        <li>✅ Unlimited personas</li>
+                        <li>✅ 24/7 support</li>
+                        <li>✅ Full analytics</li>
+                        <li>✅ Custom integrations</li>
+                        <li>✅ White-label option</li>
+                    </ul>
+                    <button class="btn-primary" onclick="purchaseLicense('PREMIUM')">Purchase</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="client.js"></script>
 </body>
 </html>

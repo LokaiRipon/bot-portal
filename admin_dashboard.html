@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadence Admin Dashboard</title>
+    <link rel="stylesheet" href="admin_styles.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <h1>Cadence</h1>
+            <span class="badge">Admin</span>
+        </div>
+        <nav>
+            <a href="index.html" class="nav-item">
+                <span>🏠</span> Client Portal
+            </a>
+            <a href="#dashboard" class="nav-item active" onclick="showSection('dashboard')">
+                <span>📊</span> Dashboard
+            </a>
+            <a href="#licenses" class="nav-item" onclick="showSection('licenses')">
+                <span>🔑</span> License Keys
+            </a>
+            <a href="#analytics" class="nav-item" onclick="showSection('analytics')">
+                <span>📈</span> Analytics
+            </a>
+            <a href="#" class="nav-item" onclick="logout()">
+                <span>🚪</span> Logout
+            </a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="section active">
+            <h2>Dashboard Overview</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🔑</div>
+                    <div class="stat-info">
+                        <h3>Total Licenses</h3>
+                        <div class="stat-value" id="total-licenses">0</div>
+                        <div class="stat-sub">Active: <span id="active-licenses">0</span></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💬</div>
+                    <div class="stat-info">
+                        <h3>Messages Today</h3>
+                        <div class="stat-value" id="messages-today">0</div>
+                        <div class="stat-sub">Total: <span id="total-messages">0</span></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-info">
+                        <h3>Active Users</h3>
+                        <div class="stat-value" id="active-users">0</div>
+                        <div class="stat-sub">Sessions: <span id="active-sessions">0</span></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-info">
+                        <h3>Avg Rating</h3>
+                        <div class="stat-value" id="avg-rating">0.0</div>
+                        <div class="stat-sub">Reviews: <span id="total-reviews">0</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Licenses Section -->
+        <section id="licenses-section" class="section">
+            <h2>License Key Management</h2>
+            <div class="action-bar">
+                <button class="btn-primary" onclick="showGenerateKeyModal()">
+                    <span>➕</span> Generate New Key
+                </button>
+                <input type="text" id="license-search" placeholder="Search licenses..." class="search-input" oninput="filterLicenses()">
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>License Key</th>
+                            <th>Tier</th>
+                            <th>Status</th>
+                            <th>Messages Used</th>
+                            <th>Expiry Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="licenses-table">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics-section" class="section">
+            <h2>Analytics & Reports</h2>
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>License Usage Over Time</h3>
+                    <canvas id="usage-chart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Tier Distribution</h3>
+                    <canvas id="tier-chart"></canvas>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Generate Key Modal -->
+    <div id="modal-overlay" class="modal-overlay" style="display: none;">
+        <div class="modal" id="generate-key-modal">
+            <h3>Generate License Key</h3>
+            <form onsubmit="generateLicenseKey(event)">
+                <div class="form-group">
+                    <label>Tier</label>
+                    <select id="key-tier" required>
+                        <option value="BASIC">Basic (150 msgs/day)</option>
+                        <option value="BRONZE">Bronze (300 msgs/day)</option>
+                        <option value="PREMIUM">Premium (500 msgs/day)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Duration (days)</label>
+                    <input type="number" id="key-duration" value="30" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label>User Email (optional)</label>
+                    <input type="email" id="key-email" placeholder="user@example.com">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Generate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin_dashboard.js"></script>
+</body>
+</html>

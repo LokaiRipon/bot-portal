@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadence Admin Dashboard</title>
     <link rel="stylesheet" href="admin_styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta name="robots" content="noindex, nofollow">
 </head>
 <body>
     <div class="sidebar">
@@ -20,7 +22,7 @@
                 <span>📊</span> Dashboard
             </a>
             <a href="#licenses" class="nav-item" onclick="showSection('licenses')">
-                <span>🔑</span> License Keys
+                <span></span> License Keys
             </a>
             <a href="#analytics" class="nav-item" onclick="showSection('analytics')">
                 <span>📈</span> Analytics
@@ -40,32 +42,32 @@
                     <div class="stat-icon">🔑</div>
                     <div class="stat-info">
                         <h3>Total Licenses</h3>
-                        <div class="stat-value" id="total-licenses">0</div>
-                        <div class="stat-sub">Active: <span id="active-licenses">0</span></div>
+                        <div class="stat-value" id="total-licenses">Loading...</div>
+                        <div class="stat-sub">Active: <span id="active-licenses">-</span></div>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon">💬</div>
                     <div class="stat-info">
                         <h3>Messages Today</h3>
-                        <div class="stat-value" id="messages-today">0</div>
-                        <div class="stat-sub">Total: <span id="total-messages">0</span></div>
+                        <div class="stat-value" id="messages-today">Loading...</div>
+                        <div class="stat-sub">Total: <span id="total-messages">-</span></div>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon">👥</div>
                     <div class="stat-info">
                         <h3>Active Users</h3>
-                        <div class="stat-value" id="active-users">0</div>
-                        <div class="stat-sub">Sessions: <span id="active-sessions">0</span></div>
+                        <div class="stat-value" id="active-users">Loading...</div>
+                        <div class="stat-sub">Sessions: <span id="active-sessions">-</span></div>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon">⭐</div>
                     <div class="stat-info">
                         <h3>Avg Rating</h3>
-                        <div class="stat-value" id="avg-rating">0.0</div>
-                        <div class="stat-sub">Reviews: <span id="total-reviews">0</span></div>
+                        <div class="stat-value" id="avg-rating">Loading...</div>
+                        <div class="stat-sub">Reviews: <span id="total-reviews">-</span></div>
                     </div>
                 </div>
             </div>
@@ -93,7 +95,7 @@
                         </tr>
                     </thead>
                     <tbody id="licenses-table">
-                        <!-- Populated by JS -->
+                        <tr><td colspan="6" class="loading">Loading licenses...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -105,11 +107,15 @@
             <div class="charts-grid">
                 <div class="chart-card">
                     <h3>License Usage Over Time</h3>
-                    <canvas id="usage-chart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="usage-chart"></canvas>
+                    </div>
                 </div>
                 <div class="chart-card">
                     <h3>Tier Distribution</h3>
-                    <canvas id="tier-chart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="tier-chart"></canvas>
+                    </div>
                 </div>
             </div>
         </section>
@@ -130,7 +136,7 @@
                 </div>
                 <div class="form-group">
                     <label>Duration (days)</label>
-                    <input type="number" id="key-duration" value="30" min="1" required>
+                    <input type="number" id="key-duration" value="30" min="1" max="365" required>
                 </div>
                 <div class="form-group">
                     <label>User Email (optional)</label>
@@ -143,6 +149,9 @@
             </form>
         </div>
     </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
 
     <script src="admin_dashboard.js"></script>
 </body>

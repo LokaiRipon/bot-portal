@@ -6,13 +6,14 @@
     <title>Cadence Bot Portal</title>
     <link rel="stylesheet" href="client_styles.css">
     <link rel="icon" type="image/x-icon" href="icon.ico">
+    <meta name="description" content="Cadence - Intelligent conversation automation for modern businesses">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <span class="logo-icon" style="width: 12%; display: flex; align-items: center;"><img src="icon.ico" alt="icon" style="width: 100%"></span>
+                <span class="logo-icon">🎵</span>
                 <span class="logo-text">Cadence</span>
             </div>
             <div class="nav-links">
@@ -38,7 +39,7 @@
                 Perfect for customer engagement, lead generation, and 24/7 automated support.
             </p>
             <div class="hero-buttons">
-                <a href="https://github.com/LokaiRipon/hbase/releases/download/Cadence3.1/Cadence_Setup_v3.1.exe" class="btn-primary">
+                <a href="https://github.com/LokaiRipon/hbase/releases/download/Cadence3.1/Cadence_Setup_v3.1.exe" class="btn-primary" target="_blank" rel="noopener">
                     <span>⬇️</span> Download Now
                 </a>
                 <a href="#features" class="btn-secondary">
@@ -48,11 +49,11 @@
         </div>
         <div class="hero-stats">
             <div class="stat-item">
-                <div class="stat-value" id="stat-users">0+</div>
+                <div class="stat-value" id="stat-users">Loading...</div>
                 <div class="stat-label">Active Users</div>
             </div>
             <div class="stat-item">
-                <div class="stat-value" id="stat-messages">0+</div>
+                <div class="stat-value" id="stat-messages">Loading...</div>
                 <div class="stat-label">Messages Sent</div>
             </div>
             <div class="stat-item">
@@ -67,7 +68,7 @@
         <h2 class="section-title">Why Choose Cadence?</h2>
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon">🤖</div>
+                <div class="feature-icon"></div>
                 <h3>AI-Powered Intelligence</h3>
                 <p>Advanced natural language processing for human-like conversations that adapt to your audience.</p>
             </div>
@@ -87,7 +88,7 @@
                 <p>Real-time insights into conversation performance, engagement metrics, and user behavior.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🔄</div>
+                <div class="feature-icon"></div>
                 <h3>Auto-Updates</h3>
                 <p>Stay current with automatic updates. Always have the latest features and improvements.</p>
             </div>
@@ -109,29 +110,23 @@
             <div class="download-card">
                 <div class="download-icon">🪟</div>
                 <h3>Windows</h3>
-                <p class="download-version">Version <span id="win-version">2.1.0</span></p>
+                <p class="download-version">Version <span id="win-version">3.1</span></p>
                 <div class="download-buttons">
-                    <a href="#" class="btn-download" onclick="downloadBot('windows', 'quick')">
-                        Quick Version
-                    </a>
-                    <a href="#" class="btn-download" onclick="downloadBot('windows', 'long')">
-                        Long Version
+                    <a href="https://github.com/LokaiRipon/hbase/releases/download/Cadence3.1/Cadence_Setup_v3.1.exe" class="btn-download" target="_blank" rel="noopener">
+                        Download Installer
                     </a>
                 </div>
-                <p class="download-note">Requires Windows 10 or later</p>
+                <p class="download-note">Requires Windows 10 or later (64-bit)</p>
             </div>
 
             <!-- Mac Download -->
             <div class="download-card">
                 <div class="download-icon">🍎</div>
                 <h3>macOS</h3>
-                <p class="download-version">Version <span id="mac-version">2.1.0</span></p>
+                <p class="download-version">Version <span id="mac-version">Coming Soon</span></p>
                 <div class="download-buttons">
-                    <a href="#" class="btn-download" onclick="downloadBot('mac', 'quick')">
-                        Quick Version
-                    </a>
-                    <a href="#" class="btn-download" onclick="downloadBot('mac', 'long')">
-                        Long Version
+                    <a href="#" class="btn-download disabled">
+                        Not Available Yet
                     </a>
                 </div>
                 <p class="download-note">Requires macOS 10.15 or later</p>
@@ -141,13 +136,10 @@
             <div class="download-card">
                 <div class="download-icon">🐧</div>
                 <h3>Linux</h3>
-                <p class="download-version">Version <span id="linux-version">2.1.0</span></p>
+                <p class="download-version">Version <span id="linux-version">Coming Soon</span></p>
                 <div class="download-buttons">
-                    <a href="#" class="btn-download" onclick="downloadBot('linux', 'quick')">
-                        Quick Version
-                    </a>
-                    <a href="#" class="btn-download" onclick="downloadBot('linux', 'long')">
-                        Long Version
+                    <a href="#" class="btn-download disabled">
+                        Not Available Yet
                     </a>
                 </div>
                 <p class="download-note">Supports Ubuntu, Debian, Fedora</p>
@@ -162,7 +154,7 @@
                     <div class="step-number">1</div>
                     <div class="step-content">
                         <h4>Download</h4>
-                        <p>Choose and download the appropriate version for your operating system.</p>
+                        <p>Download the Windows installer from the link above.</p>
                     </div>
                 </div>
                 <div class="step">
@@ -176,14 +168,14 @@
                     <div class="step-number">3</div>
                     <div class="step-content">
                         <h4>Activate</h4>
-                        <p>Enter your license key to activate all features.</p>
+                        <p>Enter your MoreLogin Profile ID and license key to activate.</p>
                     </div>
                 </div>
                 <div class="step">
                     <div class="step-number">4</div>
                     <div class="step-content">
                         <h4>Configure</h4>
-                        <p>Set up your profiles and start automating conversations.</p>
+                        <p>Set up your personas and start automating conversations.</p>
                     </div>
                 </div>
             </div>
@@ -195,7 +187,6 @@
         <h2 class="section-title">What Our Users Say</h2>
         
         <div class="reviews-container" id="reviews-list">
-            <!-- Reviews loaded dynamically -->
             <div class="review-loading">Loading reviews...</div>
         </div>
 
@@ -216,7 +207,8 @@
                 </div>
                 <div class="form-group">
                     <label>Your Review</label>
-                    <textarea id="review-comment" rows="4" placeholder="Share your experience with Cadence..." required></textarea>
+                    <textarea id="review-comment" rows="4" placeholder="Share your experience with Cadence..." required maxlength="500"></textarea>
+                    <small id="char-count">0/500 characters</small>
                 </div>
                 <button type="submit" class="btn-primary">Submit Review</button>
             </form>
@@ -231,12 +223,12 @@
     <section id="contact" class="contact">
         <h2 class="section-title">Get In Touch</h2>
         <div class="contact-options">
-            <a href="https://wa.me/25499196459" class="contact-card" target="_blank">
+            <a href="https://wa.me/25499196459" class="contact-card" target="_blank" rel="noopener">
                 <div class="contact-icon">💬</div>
                 <h3>WhatsApp</h3>
                 <p>Chat with us directly</p>
             </a>
-            <a href="https://t.me/yourusername" class="contact-card" target="_blank">
+            <a href="https://t.me/LokaiRipon" class="contact-card" target="_blank" rel="noopener">
                 <div class="contact-icon">✈️</div>
                 <h3>Telegram</h3>
                 <p>Quick support via Telegram</p>
@@ -258,19 +250,19 @@
             </div>
             <div class="footer-section">
                 <h4>Quick Links</h4>
-                <a href="https://github.com/LokaiRipon/hbase/releases/download/Cadence/Cadence_Setup_v2.2.0.exe">Download</a>
+                <a href="https://github.com/LokaiRipon/hbase/releases/download/Cadence3.1/Cadence_Setup_v3.1.exe" target="_blank" rel="noopener">Download</a>
                 <a href="#features">Features</a>
                 <a href="#reviews">Reviews</a>
             </div>
             <div class="footer-section">
                 <h4>Support</h4>
-                <a href="https://wa.me/254">WhatsApp</a>
-                <a href="https://t.me/yourusername">Telegram</a>
-                <a href="mailto:support@cadence.bot">Email</a>
+                <a href="https://wa.me/25499196459" target="_blank" rel="noopener">WhatsApp</a>
+                <a href="https://t.me/LokaiRipon" target="_blank" rel="noopener">Telegram</a>
+                <a href="mailto:botponnotify@gmail.com">Email</a>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Cadence Bot. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            <p>&copy; 2026 Cadence Bot. All rights reserved. | <a href="#privacy">Privacy Policy</a> | <a href="#terms">Terms of Service</a></p>
         </div>
     </footer>
 
@@ -282,11 +274,11 @@
             <form onsubmit="adminLogin(event)">
                 <div class="form-group">
                     <label>Username</label>
-                    <input type="text" id="admin-username" required>
+                    <input type="text" id="admin-username" required autocomplete="username">
                 </div>
                 <div class="form-group">
                     <label>Token</label>
-                    <input type="password" id="admin-token" required>
+                    <input type="password" id="admin-token" required autocomplete="current-password">
                 </div>
                 <button type="submit" class="btn-primary">Login</button>
             </form>

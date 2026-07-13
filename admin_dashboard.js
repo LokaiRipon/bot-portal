@@ -237,6 +237,41 @@ function closeModal() {
     `;
 }
 
+// Show Generate Key Modal
+function showGenerateKeyModal() {
+    const overlay = document.getElementById('modal-overlay');
+    const modal = document.getElementById('generate-key-modal');
+    
+    // Reset modal to initial state
+    modal.innerHTML = `
+        <h3>Generate License Key</h3>
+        <form onsubmit="generateLicenseKey(event)">
+            <div class="form-group">
+                <label>Tier</label>
+                <select id="key-tier" required>
+                    <option value="BASIC">Basic (150 msgs/day)</option>
+                    <option value="BRONZE">Bronze (300 msgs/day)</option>
+                    <option value="PREMIUM">Premium (500 msgs/day)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Duration (days)</label>
+                <input type="number" id="key-duration" value="30" min="1" max="365" required>
+            </div>
+            <div class="form-group">
+                <label>User Email (optional)</label>
+                <input type="email" id="key-email" placeholder="user@example.com">
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+                <button type="submit" class="btn-primary">Generate</button>
+            </div>
+        </form>
+    `;
+    
+    overlay.style.display = 'flex';
+}
+
 // Logout
 function logout() {
     localStorage.removeItem('admin_token');

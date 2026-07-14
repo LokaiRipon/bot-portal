@@ -1,4 +1,4 @@
-const API_BASE = 'https://web-production-fe376c.up.railway.app';
+const API_BASE = 'https://web-production-9b431.up.railway.app';
 let currentUser = null;
 let selectedRating = 0;
 

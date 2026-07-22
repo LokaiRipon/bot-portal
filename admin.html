@@ -3,85 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadence Admin Dashboard</title>
+    <title>Cadence — Admin</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="icon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="admin_styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <meta name="robots" content="noindex, nofollow">
 </head>
 <body>
-    <div class="sidebar">
-        <div class="logo">
-            <h1>Cadence</h1>
-            <span class="badge">Admin</span>
+    <aside class="sidebar">
+        <div class="brand">
+            <svg class="brand-mark" width="22" height="22" viewBox="0 0 22 22">
+                <rect x="1" y="8" width="3.5" height="14" rx="1"></rect>
+                <rect x="7" y="2" width="3.5" height="20" rx="1"></rect>
+                <rect x="13" y="6" width="3.5" height="16" rx="1"></rect>
+                <rect x="19" y="10" width="2.5" height="12" rx="1"></rect>
+            </svg>
+            <div class="brand-text">
+                <h1>Cadence</h1>
+                <span class="brand-tag">ADMIN</span>
+            </div>
         </div>
-        <nav>
-            <a href="index.html" class="nav-item">
-                <span>🏠</span> Client Portal
-            </a>
-            <a href="#dashboard" class="nav-item active" onclick="showSection('dashboard')">
-                <span>📊</span> Dashboard
-            </a>
-            <a href="#licenses" class="nav-item" onclick="showSection('licenses')">
-                <span></span> License Keys
-            </a>
-            <a href="#analytics" class="nav-item" onclick="showSection('analytics')">
-                <span>📈</span> Analytics
-            </a>
-            <a href="#" class="nav-item" onclick="logout()">
-                <span>🚪</span> Logout
-            </a>
+
+        <nav class="nav">
+            <button class="nav-item active" data-section="dashboard" onclick="showSection('dashboard')">
+                <span class="led"></span> Dashboard
+            </button>
+            <button class="nav-item" data-section="licenses" onclick="showSection('licenses')">
+                <span class="led"></span> License Keys
+            </button>
+            <button class="nav-item" data-section="analytics" onclick="showSection('analytics')">
+                <span class="led"></span> Analytics
+            </button>
         </nav>
-    </div>
+
+        <hr class="nav-divider">
+
+        <nav class="nav">
+            <a href="index.html" class="nav-item">Client Portal</a>
+            <button class="nav-item" onclick="logout()">Log out</button>
+        </nav>
+
+        <div class="sidebar-footer">
+            <span class="footer-status"><span class="led led-live"></span> Live</span>
+            <span class="footer-status">Daily reset · 03:00 EAT</span>
+        </div>
+    </aside>
 
     <div class="main-content">
         <!-- Dashboard Section -->
         <section id="dashboard-section" class="section active">
-            <h2>Dashboard Overview</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">🔑</div>
-                    <div class="stat-info">
-                        <h3>Total Licenses</h3>
-                        <div class="stat-value" id="total-licenses">Loading...</div>
-                        <div class="stat-sub">Active: <span id="active-licenses">-</span></div>
+            <div class="section-header">
+                <h2>Dashboard</h2>
+                <span class="section-sub">Fleet status, at a glance</span>
+            </div>
+
+            <div class="meter-bridge">
+                <div class="meter">
+                    <div class="meter-label">Licenses</div>
+                    <div class="meter-screen">
+                        <div class="meter-value" id="total-licenses">– –</div>
+                        <div class="meter-bar" id="licenses-bar" style="--pct:0%"></div>
                     </div>
+                    <div class="meter-meta"><span id="active-licenses">–</span> active</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon">💬</div>
-                    <div class="stat-info">
-                        <h3>Messages Today</h3>
-                        <div class="stat-value" id="messages-today">Loading...</div>
-                        <div class="stat-sub">Total: <span id="total-messages">-</span></div>
+                <div class="meter">
+                    <div class="meter-label">Messages Today</div>
+                    <div class="meter-screen">
+                        <div class="meter-value" id="messages-today">– –</div>
                     </div>
+                    <div class="meter-meta"><span id="total-messages">–</span> all-time</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon">👥</div>
-                    <div class="stat-info">
-                        <h3>Active Users</h3>
-                        <div class="stat-value" id="active-users">Loading...</div>
-                        <div class="stat-sub">Sessions: <span id="active-sessions">-</span></div>
+                <div class="meter">
+                    <div class="meter-label">Active Users</div>
+                    <div class="meter-screen">
+                        <div class="meter-value" id="active-users">– –</div>
                     </div>
+                    <div class="meter-meta"><span id="active-sessions">–</span> live sessions</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon">⭐</div>
-                    <div class="stat-info">
-                        <h3>Avg Rating</h3>
-                        <div class="stat-value" id="avg-rating">Loading...</div>
-                        <div class="stat-sub">Reviews: <span id="total-reviews">-</span></div>
+                <div class="meter">
+                    <div class="meter-label">Avg Rating</div>
+                    <div class="meter-screen">
+                        <div class="meter-value" id="avg-rating">– –</div>
                     </div>
+                    <div class="meter-meta"><span id="total-reviews">–</span> reviews</div>
                 </div>
             </div>
         </section>
 
         <!-- Licenses Section -->
         <section id="licenses-section" class="section">
-            <h2>License Key Management</h2>
-            <div class="action-bar">
-                <button class="btn-primary" onclick="showGenerateKeyModal()">
-                    <span>➕</span> Generate New Key
-                </button>
-                <input type="text" id="license-search" placeholder="Search licenses..." class="search-input" oninput="filterLicenses()">
+            <div class="section-header">
+                <h2>License Keys</h2>
+                <span class="section-sub">Every issued channel and its usage</span>
             </div>
+
+            <div class="action-bar">
+                <button class="btn-solid" onclick="showGenerateKeyModal()">+ Generate Key</button>
+                <input type="text" id="license-search" placeholder="Search by key or email…" class="search-input" oninput="filterLicenses()">
+            </div>
+
             <div class="table-container">
                 <table>
                     <thead>
@@ -89,13 +112,18 @@
                             <th>License Key</th>
                             <th>Tier</th>
                             <th>Status</th>
-                            <th>Messages Used</th>
-                            <th>Expiry Date</th>
+                            <th>Usage</th>
+                            <th>Expiry</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="licenses-table">
-                        <tr><td colspan="6" class="loading">Loading licenses...</td></tr>
+                        <tr>
+                            <td colspan="6" class="loading-row">
+                                <div class="eq-loader"><span></span><span></span><span></span><span></span><span></span></div>
+                                Reading channel list…
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -103,7 +131,10 @@
 
         <!-- Analytics Section -->
         <section id="analytics-section" class="section">
-            <h2>Analytics & Reports</h2>
+            <div class="section-header">
+                <h2>Analytics</h2>
+                <span class="section-sub">Usage trends and tier distribution</span>
+            </div>
             <div class="charts-grid">
                 <div class="chart-card">
                     <h3>License Usage Over Time</h3>
@@ -121,32 +152,10 @@
         </section>
     </div>
 
-    <!-- Generate Key Modal -->
+    <!-- Generate Key Drawer -->
     <div id="modal-overlay" class="modal-overlay" style="display: none;">
         <div class="modal" id="generate-key-modal">
-            <h3>Generate License Key</h3>
-            <form onsubmit="generateLicenseKey(event)">
-                <div class="form-group">
-                    <label>Tier</label>
-                    <select id="key-tier" required>
-                        <option value="BASIC">Basic (150 msgs/day)</option>
-                        <option value="BRONZE">Bronze (300 msgs/day)</option>
-                        <option value="PREMIUM">Premium (500 msgs/day)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Duration (days)</label>
-                    <input type="number" id="key-duration" value="30" min="1" max="365" required>
-                </div>
-                <div class="form-group">
-                    <label>User Email (optional)</label>
-                    <input type="email" id="key-email" placeholder="user@example.com">
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
-                    <button type="submit" class="btn-primary">Generate</button>
-                </div>
-            </form>
+            <!-- populated by admin_dashboard.js -->
         </div>
     </div>
 

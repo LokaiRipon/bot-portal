@@ -3,20 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadence Bot Portal</title>
+    <title>Cadence — Intelligent Conversation Automation</title>
+    <meta name="description" content="Cadence is an AI-powered chat bot for seamless, natural conversations — built for customer engagement, lead generation, and 24/7 automated support.">
+    <link rel="icon" href="icon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="client_styles.css">
-    <link rel="icon" type="image/x-icon" href="icon.ico">
-    <meta name="description" content="Cadence - Intelligent conversation automation for modern businesses">
 </head>
 <body>
-    <!-- Navigation -->
+
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">
-                <span class="logo-icon">🎵</span>
+            <a href="#home" class="logo">
+                <svg class="brand-mark" width="20" height="20" viewBox="0 0 22 22">
+                    <rect x="1" y="8" width="3.5" height="14" rx="1"></rect>
+                    <rect x="7" y="2" width="3.5" height="20" rx="1"></rect>
+                    <rect x="13" y="6" width="3.5" height="16" rx="1"></rect>
+                    <rect x="19" y="10" width="2.5" height="12" rx="1"></rect>
+                </svg>
                 <span class="logo-text">Cadence</span>
-            </div>
-            <div class="nav-links">
+            </a>
+
+            <div class="nav-links" id="nav-links">
                 <a href="#home" class="nav-link active">Home</a>
                 <a href="#download" class="nav-link">Download</a>
                 <a href="#features" class="nav-link">Features</a>
@@ -24,129 +33,122 @@
                 <a href="#contact" class="nav-link">Contact</a>
                 <button class="btn-login" onclick="showLoginModal()">Admin Login</button>
             </div>
+
+            <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">
-                Intelligent Conversations.<br>
-                <span class="gradient-text">Automated Excellence.</span>
-            </h1>
-            <p class="hero-subtitle">
-                Cadence is an advanced AI-powered chat bot designed for seamless, natural conversations. 
-                Perfect for customer engagement, lead generation, and 24/7 automated support.
-            </p>
-            <div class="hero-buttons">
-                <a href="https://github.com/LokaiRipon/hbase/releases/download/Cadence_8/Cadence_Setup_v8.0.0.exe" class="btn-primary" target="_blank" rel="noopener">
-                    <span>⬇️</span> Download Now
-                </a>
-                <a href="#features" class="btn-secondary">
-                    <span>✨</span> Learn More
-                </a>
-            </div>
+    <!-- Hero -->
+    <header class="hero" id="home">
+        <h1 class="hero-title">
+            Intelligent Conversations.<br>
+            <span class="glow-text">Automated Excellence.</span>
+        </h1>
+        <p class="hero-subtitle">
+            Cadence is an advanced AI-powered chat bot designed for seamless, natural conversations. Perfect for customer engagement, lead generation, and 24/7 automated support.
+        </p>
+        <div class="hero-buttons">
+            <a href="https://github.com/LokaiRipon/cadence-pub/releases/download/Cadence-8.0.0/Cadence_Setup_v8.0.0.exe" class="btn-primary">Download Now</a>
+            <a href="#features" class="btn-secondary">Learn More</a>
         </div>
-        <div class="hero-stats">
-            <div class="stat-item">
-                <div class="stat-value" id="stat-users">Loading...</div>
-                <div class="stat-label">Active Users</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="stat-messages">Loading...</div>
-                <div class="stat-label">Messages Sent</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="stat-uptime">99.9%</div>
-                <div class="stat-label">Uptime</div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Features Section -->
-    <section id="features" class="features">
-        <h2 class="section-title">Why Choose Cadence?</h2>
+        <div class="meter-bridge">
+            <div class="meter">
+                <div class="meter-label">Active Users</div>
+                <div class="meter-screen"><div class="meter-value" id="stat-users">500+</div></div>
+            </div>
+            <div class="meter">
+                <div class="meter-label">Messages Sent</div>
+                <div class="meter-screen"><div class="meter-value" id="stat-messages">50k+</div></div>
+            </div>
+            <div class="meter">
+                <div class="meter-label">Uptime</div>
+                <div class="meter-screen"><div class="meter-value">99.9%</div></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features -->
+    <section id="features">
+        <div class="section-header">
+            <h2 class="section-title">Why Choose Cadence?</h2>
+        </div>
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon"></div>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 7v4M12 11 6 17M12 11l6 6"/></svg>
+                </div>
                 <h3>AI-Powered Intelligence</h3>
                 <p>Advanced natural language processing for human-like conversations that adapt to your audience.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">⚡</div>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg>
+                </div>
                 <h3>Lightning Fast</h3>
                 <p>Optimized for speed with response times under 2 seconds. No more waiting.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🔒</div>
-                <h3>Secure & Private</h3>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+                </div>
+                <h3>Secure &amp; Private</h3>
                 <p>Enterprise-grade security with encrypted communications and data protection.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">📊</div>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19V10M12 19V5M19 19v-6"/></svg>
+                </div>
                 <h3>Analytics Dashboard</h3>
                 <p>Real-time insights into conversation performance, engagement metrics, and user behavior.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon"></div>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12a8 8 0 0 1 13.9-5.5M20 12a8 8 0 0 1-13.9 5.5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>
+                </div>
                 <h3>Auto-Updates</h3>
                 <p>Stay current with automatic updates. Always have the latest features and improvements.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">💬</div>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 8h9a3 3 0 0 1 3 3v3a3 3 0 0 1-3 3H10l-4 3v-3H7a3 3 0 0 1-3-3v-3a3 3 0 0 1 3-3Z"/></svg>
+                </div>
                 <h3>Multi-Persona Support</h3>
                 <p>Switch between different conversation styles and personas to match your brand voice.</p>
             </div>
         </div>
     </section>
 
-    <!-- Download Section -->
-    <section id="download" class="download">
-        <h2 class="section-title">Download Cadence</h2>
-        <p class="section-subtitle">Choose your platform and get started in minutes</p>
-        
+    <!-- Download -->
+    <section id="download" class="section-alt">
+        <div class="section-header">
+            <h2 class="section-title">Download Cadence</h2>
+            <p class="section-subtitle">Choose your platform and get started in minutes</p>
+        </div>
+
         <div class="download-options">
-            <!-- Windows Download -->
             <div class="download-card">
-                <div class="download-icon">🪟</div>
                 <h3>Windows</h3>
-                <p class="download-version">Version <span id="win-version">8.0.0</span></p>
-                <div class="download-buttons">
-                    <a href="https://github.com/LokaiRipon/hbase/releases/download/Cadence_8/Cadence_Setup_v8.0.0.exe" class="btn-download" target="_blank" rel="noopener">
-                        Download Installer
-                    </a>
-                </div>
-                <p class="download-note">Requires Windows 10 or later (64-bit)</p>
+                <div class="download-version">Version 8.0.0</div>
+                <button class="btn-primary" onclick="downloadBot('windows', '8.0.0')">Download Installer</button>
+                <div class="download-note">Requires Windows 10 or later (64-bit)</div>
             </div>
-
-            <!-- Mac Download -->
             <div class="download-card">
-                <div class="download-icon">🍎</div>
                 <h3>macOS</h3>
-                <p class="download-version">Version <span id="mac-version">Coming Soon</span></p>
-                <div class="download-buttons">
-                    <a href="#" class="btn-download disabled">
-                        Not Available Yet
-                    </a>
-                </div>
-                <p class="download-note">Requires macOS 10.15 or later</p>
+                <div class="download-version">Version Coming Soon</div>
+                <button class="btn-disabled" disabled>Not Available Yet</button>
+                <div class="download-note">Requires macOS 10.15 or later</div>
             </div>
-
-            <!-- Linux Download -->
             <div class="download-card">
-                <div class="download-icon">🐧</div>
                 <h3>Linux</h3>
-                <p class="download-version">Version <span id="linux-version">Coming Soon</span></p>
-                <div class="download-buttons">
-                    <a href="#" class="btn-download disabled">
-                        Not Available Yet
-                    </a>
-                </div>
-                <p class="download-note">Supports Ubuntu, Debian, Fedora</p>
+                <div class="download-version">Version Coming Soon</div>
+                <button class="btn-disabled" disabled>Not Available Yet</button>
+                <div class="download-note">Supports Ubuntu, Debian, Fedora</div>
             </div>
         </div>
 
-        <!-- Installation Steps -->
         <div class="installation-guide">
             <h3>Installation Instructions</h3>
             <div class="steps">
@@ -182,59 +184,66 @@
         </div>
     </section>
 
-    <!-- Reviews Section -->
-    <section id="reviews" class="reviews">
-        <h2 class="section-title">What Our Users Say</h2>
-        
-        <div class="reviews-container" id="reviews-list">
-            <div class="review-loading">Loading reviews...</div>
+    <!-- Reviews -->
+    <section id="reviews">
+        <div class="section-header">
+            <h2 class="section-title">What Our Users Say</h2>
         </div>
 
-        <!-- Submit Review (Only for authenticated users) -->
-        <div id="review-form-container" style="display: none;">
-            <h3>Share Your Experience</h3>
+        <div class="reviews-container" id="reviews-list">
+            <p class="review-empty">Loading reviews…</p>
+        </div>
+
+        <div id="login-prompt" class="login-prompt">
+            Reviews are open to licensed users. Activate Cadence with your license key to leave one.
+        </div>
+
+        <div id="review-form-container" style="display:none;">
             <form id="review-form" onsubmit="submitReview(event)">
                 <div class="form-group">
-                    <label>Rating</label>
+                    <label>Your Rating</label>
                     <div class="star-rating">
-                        <span class="star" data-rating="1" onclick="setRating(1)">⭐</span>
-                        <span class="star" data-rating="2" onclick="setRating(2)">⭐</span>
-                        <span class="star" data-rating="3" onclick="setRating(3)">⭐</span>
-                        <span class="star" data-rating="4" onclick="setRating(4)">⭐</span>
-                        <span class="star" data-rating="5" onclick="setRating(5)">⭐</span>
+                        <span class="star" onclick="setRating(1)">★</span>
+                        <span class="star" onclick="setRating(2)">★</span>
+                        <span class="star" onclick="setRating(3)">★</span>
+                        <span class="star" onclick="setRating(4)">★</span>
+                        <span class="star" onclick="setRating(5)">★</span>
                     </div>
-                    <input type="hidden" id="review-rating" required>
+                    <input type="hidden" id="review-rating" value="0" required>
                 </div>
                 <div class="form-group">
-                    <label>Your Review</label>
-                    <textarea id="review-comment" rows="4" placeholder="Share your experience with Cadence..." required maxlength="500"></textarea>
-                    <small id="char-count">0/500 characters</small>
+                    <label for="review-comment">Your Review</label>
+                    <textarea id="review-comment" rows="4" placeholder="Tell us how Cadence is working for you…" required></textarea>
                 </div>
                 <button type="submit" class="btn-primary">Submit Review</button>
             </form>
         </div>
-
-        <div id="login-prompt" class="login-prompt">
-            <p>Want to leave a review? <a href="#" onclick="showLoginModal()">Login</a> with your license key.</p>
-        </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <h2 class="section-title">Get In Touch</h2>
+    <!-- Contact -->
+    <section id="contact" class="section-alt">
+        <div class="section-header">
+            <h2 class="section-title">Get In Touch</h2>
+        </div>
         <div class="contact-options">
-            <a href="https://wa.me/25499196459" class="contact-card" target="_blank" rel="noopener">
-                <div class="contact-icon">💬</div>
+            <a href="https://wa.me/25499196459" target="_blank" class="contact-card">
+                <div class="contact-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.5 8.5 0 0 1-12.9 7.3L4 20l1.3-4A8.5 8.5 0 1 1 21 11.5Z"/></svg>
+                </div>
                 <h3>WhatsApp</h3>
                 <p>Chat with us directly</p>
             </a>
-            <a href="https://t.me/LokaiRipon" class="contact-card" target="_blank" rel="noopener">
-                <div class="contact-icon">✈️</div>
+            <a href="https://t.me/cadencebot" target="_blank" class="contact-card">
+                <div class="contact-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7Z"/></svg>
+                </div>
                 <h3>Telegram</h3>
                 <p>Quick support via Telegram</p>
             </a>
-            <a href="mailto:botponnotify@gmail.com" class="contact-card">
-                <div class="contact-icon">📧</div>
+            <a href="mailto:support@cadence.bot" class="contact-card">
+                <div class="contact-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="m4 7 8 6 8-6"/></svg>
+                </div>
                 <h3>Email</h3>
                 <p>support@cadence.bot</p>
             </a>
@@ -250,86 +259,39 @@
             </div>
             <div class="footer-section">
                 <h4>Quick Links</h4>
-                <a href="https://github.com/LokaiRipon/hbase/releases/download/Cadence_8/Cadence_Setup_v8.0.0.exe" target="_blank" rel="noopener">Download</a>
+                <a href="#download">Download</a>
                 <a href="#features">Features</a>
                 <a href="#reviews">Reviews</a>
+                <a href="#contact">Contact</a>
             </div>
             <div class="footer-section">
                 <h4>Support</h4>
-                <a href="https://wa.me/25499196459" target="_blank" rel="noopener">WhatsApp</a>
-                <a href="https://t.me/LokaiRipon" target="_blank" rel="noopener">Telegram</a>
-                <a href="mailto:botponnotify@gmail.com">Email</a>
+                <a href="https://wa.me/25499196459" target="_blank">WhatsApp</a>
+                <a href="https://t.me/cadencebot" target="_blank">Telegram</a>
+                <a href="mailto:support@cadence.bot">Email</a>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Cadence Bot. All rights reserved. | <a href="#privacy">Privacy Policy</a> | <a href="#terms">Terms of Service</a></p>
+            &copy; 2026 Cadence. All rights reserved.
         </div>
     </footer>
 
     <!-- Login Modal -->
     <div id="login-modal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeLoginModal()">&times;</span>
-            <h2>Admin Login</h2>
+            <button class="close" onclick="closeLoginModal()" aria-label="Close">✕</button>
+            <h3>Admin Login</h3>
             <form onsubmit="adminLogin(event)">
                 <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" id="admin-username" required autocomplete="username">
+                    <label for="admin-username">Username</label>
+                    <input type="text" id="admin-username" required>
                 </div>
                 <div class="form-group">
-                    <label>Token</label>
-                    <input type="password" id="admin-token" required autocomplete="current-password">
+                    <label for="admin-token">Admin Token</label>
+                    <input type="password" id="admin-token" required>
                 </div>
-                <button type="submit" class="btn-primary">Login</button>
+                <button type="submit" class="btn-primary" style="width:100%">Log In</button>
             </form>
-        </div>
-    </div>
-
-    <!-- License Key Modal -->
-    <div id="license-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeLicenseModal()">&times;</span>
-            <h2>Get Your License Key</h2>
-            <p>To download and activate Cadence, you need a license key.</p>
-            <div class="license-options">
-                <div class="license-tier">
-                    <h3>Basic</h3>
-                    <div class="price">$10<span>/month</span></div>
-                    <ul>
-                        <li>✅ 150 messages/day</li>
-                        <li>✅ 1 persona</li>
-                        <li>✅ Basic support</li>
-                        <li>✅ Email notifications</li>
-                    </ul>
-                    <button class="btn-primary" onclick="purchaseLicense('BASIC')">Purchase</button>
-                </div>
-                <div class="license-tier featured">
-                    <div class="badge">Popular</div>
-                    <h3>Bronze</h3>
-                    <div class="price">$25<span>/month</span></div>
-                    <ul>
-                        <li>✅ 300 messages/day</li>
-                        <li>✅ 3 personas</li>
-                        <li>✅ Priority support</li>
-                        <li>✅ Advanced analytics</li>
-                        <li>✅ Auto-updates</li>
-                    </ul>
-                    <button class="btn-primary" onclick="purchaseLicense('BRONZE')">Purchase</button>
-                </div>
-                <div class="license-tier">
-                    <h3>Premium</h3>
-                    <div class="price">$50<span>/month</span></div>
-                    <ul>
-                        <li>✅ 500 messages/day</li>
-                        <li>✅ Unlimited personas</li>
-                        <li>✅ 24/7 support</li>
-                        <li>✅ Full analytics</li>
-                        <li>✅ Custom integrations</li>
-                        <li>✅ White-label option</li>
-                    </ul>
-                    <button class="btn-primary" onclick="purchaseLicense('PREMIUM')">Purchase</button>
-                </div>
-            </div>
         </div>
     </div>
 

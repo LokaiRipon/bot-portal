@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Load Stats
+// Note: the hero counters default to static placeholder copy in the HTML
+// ("500+", "50k+") so the page never gets stuck on "Loading…" for visitors —
+// this just overwrites them if the stats call succeeds.
 async function loadStats() {
     try {
         const response = await fetch(`${API_BASE}/dev/api/stats`, {
@@ -30,25 +33,29 @@ async function loadReviews() {
     try {
         const response = await fetch(`${API_BASE}/api/reviews?approved=true`);
         const data = await response.json();
-        
+
         const container = document.getElementById('reviews-list');
         if (data.reviews && data.reviews.length > 0) {
-            container.innerHTML = data.reviews.map(review => `
+            container.innerHTML = data.reviews.map(review => {
+                const dots = Array.from({ length: 5 }, (_, i) =>
+                    `<span class="dot${i < review.rating ? ' filled' : ''}"></span>`
+                ).join('');
+                return `
                 <div class="review-card">
                     <div class="review-header">
                         <div class="review-author">${review.user_email.split('@')[0]}</div>
-                        <div class="review-rating">${'⭐'.repeat(review.rating)}</div>
+                        <div class="review-rating">${dots}</div>
                     </div>
                     <div class="review-comment">${review.comment}</div>
                     <div class="review-date">${new Date(review.created_at).toLocaleDateString()}</div>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
         } else {
-            container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No reviews yet. Be the first!</p>';
+            container.innerHTML = '<p class="review-empty">No reviews yet. Be the first!</p>';
         }
     } catch (e) {
         console.error('Failed to load reviews:', e);
-        document.getElementById('reviews-list').innerHTML = '<p style="text-align: center; color: var(--error);">Failed to load reviews</p>';
+        document.getElementById('reviews-list').innerHTML = '<p class="review-error">Failed to load reviews.</p>';
     }
 }
 
@@ -74,16 +81,16 @@ function setRating(rating) {
 // Submit Review
 async function submitReview(event) {
     event.preventDefault();
-    
+
     if (!currentUser) {
         alert('Please login first');
         showLoginModal();
         return;
     }
-    
+
     const rating = document.getElementById('review-rating').value;
     const comment = document.getElementById('review-comment').value;
-    
+
     try {
         const response = await fetch(`${API_BASE}/api/submit_review`, {
             method: 'POST',
@@ -96,7 +103,7 @@ async function submitReview(event) {
                 comment: comment
             })
         });
-        
+
         if (response.ok) {
             alert('Review submitted successfully! It will be published after approval.');
             document.getElementById('review-form').reset();
@@ -115,12 +122,12 @@ async function submitReview(event) {
 // Download Bot
 async function downloadBot(platform, version) {
     try {
-        const response = await fetch(`${API_BASE}/api/download_links`);
+        const response = await fetch(`${API_BASE}/api/app_version`);
         const data = await response.json();
-        
+        version = version || data["version"];
         const key = `${platform}_${version}`;
-        const downloadUrl = data[key];
-        
+        const downloadUrl = data["download_url"];
+
         if (downloadUrl) {
             window.open(downloadUrl, '_blank');
         } else {
@@ -145,17 +152,17 @@ function closeLoginModal() {
 // Admin Login
 async function adminLogin(event) {
     event.preventDefault();
-    
+
     const username = document.getElementById('admin-username').value;
     const token = document.getElementById('admin-token').value;
-    
+
     try {
         const response = await fetch(`${API_BASE}/admin/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, admin_token: token })
         });
-        
+
         if (response.ok) {
             localStorage.setItem('admin_username', username);
             localStorage.setItem('admin_token', token);
@@ -172,12 +179,24 @@ async function adminLogin(event) {
 // Purchase License
 function purchaseLicense(tier) {
     alert(`To purchase ${tier} license, please contact us via WhatsApp or Telegram.`);
-    window.open('https://wa.me/254', '_blank');
+    window.open('https://wa.me/25499196459', '_blank');
 }
 
+// Mobile nav toggle
+function toggleNav() {
+    document.getElementById('nav-links').classList.toggle('open');
+}
+
+// Close the mobile menu once a link is tapped
+document.getElementById('nav-links')?.addEventListener('click', (e) => {
+    if (e.target.classList.contains('nav-link')) {
+        document.getElementById('nav-links').classList.remove('open');
+    }
+});
+
 // Close modals on outside click
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target.classList.contains('modal')) {
         event.target.classList.remove('active');
     }
-}
+};

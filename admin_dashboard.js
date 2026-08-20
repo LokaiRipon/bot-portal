@@ -216,7 +216,7 @@ async function revokeKey(key) {
     }
 
     try {
-        const response = await fetch(`${API_BASE}${localStorage.getItem('admin_path')}`, {
+        const response = await fetch(`${API_BASE}/admin/api/delete_key`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

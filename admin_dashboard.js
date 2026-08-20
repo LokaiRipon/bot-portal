@@ -107,7 +107,7 @@ function renderLicenses(licenses) {
             <td class="cell-mono">${key.expiry_date}</td>
             <td class="cell-actions">
                 <button class="btn-ghost btn-small" onclick="copyToClipboard('${key.key}')">Copy</button>
-                <button class="btn-ghost btn-small btn-danger" onclick="revokeKey('${key.key}', '${key.userEmail}')">Revoke</button>
+                <button class="btn-ghost btn-small btn-danger" onclick="revokeKey('${key.key}', '${key.user_email}')">Revoke</button>
             </td>
         </tr>`;
     }).join('');
@@ -223,8 +223,8 @@ async function revokeKey(key, userEmail) {
                 'Authorization': `Bearer ${authToken}`
             },
             body: JSON.stringify({
-                key = key,
-                user_email = userEmail
+                key: key,
+                user_email: userEmail
             })
         });
 

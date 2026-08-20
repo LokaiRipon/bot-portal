@@ -107,7 +107,7 @@ function renderLicenses(licenses) {
             <td class="cell-mono">${key.expiry_date}</td>
             <td class="cell-actions">
                 <button class="btn-ghost btn-small" onclick="copyToClipboard('${key.key}')">Copy</button>
-                <button class="btn-ghost btn-small btn-danger" onclick="revokeKey('${key.key}')">Revoke</button>
+                <button class="btn-ghost btn-small btn-danger" onclick="revokeKey('${key.key}', '${key.userEmail}')">Revoke</button>
             </td>
         </tr>`;
     }).join('');
@@ -210,17 +210,22 @@ async function generateLicenseKey(event) {
 }
 
 // Revoke Key
-async function revokeKey(key) {
+async function revokeKey(key, userEmail) {
     if (!confirm(`Are you sure you want to revoke license key ...${key.slice(-8)}?`)) {
         return;
     }
 
     try {
-        const response = await fetch(`${API_BASE}/admin/api/delete_key?key=${encodeURIComponent(key)}`, {
+        const response = await fetch(`${API_BASE}/admin/api/delete_key`, {
             method: 'DELETE',
             headers: {
+                'ContentType': 'application/json',
                 'Authorization': `Bearer ${authToken}`
             },
+            body: JSON.stringify({
+                key = key,
+                user_email = userEmail
+            })
         });
 
         const data = await response.json();

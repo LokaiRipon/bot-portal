@@ -217,7 +217,7 @@ async function revokeKey(key) {
 
     try {
         const response = await fetch(`${API_BASE}/admin/api/delete_key`, {
-            method: 'POST',
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${authToken}`

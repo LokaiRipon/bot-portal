@@ -1,4 +1,4 @@
-const API_BASE = 'https://hbase-production.up.railway.app';
+const API_BASE = 'https://web-production-ae55a.up.railway.app';
 let authToken = localStorage.getItem('admin_token');
 let currentLicenses = [];
 

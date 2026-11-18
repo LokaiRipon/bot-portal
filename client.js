@@ -1,4 +1,4 @@
-const API_BASE = 'https://web-production-ae55a.up.railway.app';
+const API_BASE = 'https://hbase-3boo.onrender.com';
 let currentUser = null;
 let selectedRating = 0;
 
